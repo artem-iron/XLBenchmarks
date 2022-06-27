@@ -1,9 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
-
-using System.Reflection;
+﻿using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.DependencyInjection;
 using XLReporting.Configuration;
 using IronXL;
+using Serilog;
 
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 var builder = new ConfigurationBuilder()
@@ -13,6 +14,16 @@ var builder = new ConfigurationBuilder()
     .AddEnvironmentVariables();
 
 var configurationRoot = builder.Build();
-var appConfig = configurationRoot.GetSection(nameof(AppConfig)).Get<AppConfig>();
+
+var host = Host.CreateDefaultBuilder()
+    .ConfigureServices((context, services) =>
+    {
+        services.AddSingleton<IAppConfig, AppConfig>(
+            _ => configurationRoot.GetSection(nameof(AppConfig)).Get<AppConfig>());
+    })
+    .UseSerilog()
+    .Build();
+
+var appConfig = ActivatorUtilities.GetServiceOrCreateInstance<IAppConfig>(host.Services);
 
 License.LicenseKey = appConfig.LicenseKey;
