@@ -8,7 +8,7 @@ namespace XLReporting.Tests;
 public class ReportGeneratorTests : TestsBase
 {
     private readonly ReportGenerator _reportGenerator;
-    private Mock<IAppConfig> _appConfig;
+    private readonly Mock<IAppConfig> _appConfig;
 
     public ReportGeneratorTests() : base()
     {
@@ -22,13 +22,13 @@ public class ReportGeneratorTests : TestsBase
 
         _reportGenerator = new ReportGenerator(_appConfig.Object);
     }
-    
+
     [TestMethod]
     public void CreateReport_ReportIsCreated()
     {
         var reportName = _reportGenerator.GenerateReport();
         var fileExists = File.Exists(reportName);
-        
+
         Assert.IsTrue(fileExists);
     }
 
@@ -36,7 +36,7 @@ public class ReportGeneratorTests : TestsBase
     public void CreateTemplate_TemplateIsCreated()
     {
         var template = _reportGenerator.CreateTemplate();
-        
+
         Assert.IsNotNull(template);
     }
 
@@ -44,9 +44,9 @@ public class ReportGeneratorTests : TestsBase
     public void LoadTemplate_TemplateIsLoadedOrCreated()
     {
         string template = null;//_reportGenerator.LoadTemplate();
-        
+
         Assert.IsNotNull(template);
     }
-    
-    
+
+
 }
