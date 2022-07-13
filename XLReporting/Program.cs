@@ -6,6 +6,8 @@ using XLReporting.Configuration;
 using IronXL;
 using Serilog;
 
+Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
+
 var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
 var builder = new ConfigurationBuilder()
     .AddJsonFile($"appsettings.json", true, true)
