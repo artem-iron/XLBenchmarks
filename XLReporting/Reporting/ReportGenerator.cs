@@ -52,6 +52,16 @@ public class ReportGenerator : IReportGenerator
         return template;
     }
 
+    public WorkBook LoadTemplate()
+    {
+        if (File.Exists(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location) + "\\template.xlsx"))
+        {
+            return WorkBook.Load("template.xlsx");
+        }
+        
+        return CreateTemplate();
+    }
+
     private void FormatTimeTable(WorkSheet sheet)
     {
         for (var i = 1; i <= _appConfig.ContendersNumber; i++)

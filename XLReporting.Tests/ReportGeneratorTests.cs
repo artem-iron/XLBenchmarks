@@ -43,10 +43,8 @@ public class ReportGeneratorTests : TestsBase
     [TestMethod]
     public void LoadTemplate_TemplateIsLoadedOrCreated()
     {
-        string template = null;//_reportGenerator.LoadTemplate();
+        var template = _reportGenerator.LoadTemplate();//_reportGenerator.LoadTemplate();
 
         Assert.IsNotNull(template);
     }
-
-
 }
