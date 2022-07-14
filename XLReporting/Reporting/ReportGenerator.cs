@@ -3,6 +3,7 @@ using IronXL;
 using IronXL.Drawing.Charts;
 using IronXL.Formatting;
 using XLReporting.Configuration;
+using CurrentIronXL;
 
 namespace XLReporting.Reporting;
 
@@ -123,7 +124,7 @@ public class ReportGenerator : IReportGenerator
 
     private static TimeSpan[] GetCurrentIronXLTestData()
     {
-        return GetAsposeTestData();
+        return TestRunner.RunTests();
     }
 
     private void FillRow(WorkSheet sheet, int i, string contender, TimeSpan[] times)
