@@ -26,13 +26,15 @@ public class ReportGenerator : IReportGenerator
             return "";
         }
 
-        var fileName = Path.Combine(path, $"Report_{DateTime.Now:yyyy-MM-d_HH-mm-ss}.xlsx");
+        var reportName = Path.Combine(path, $"Report_{DateTime.Now:yyyy-MM-d_HH-mm-ss}.xlsx");
 
-        var report = WorkBook.Create(ExcelFileFormat.XLSX);
-        _ = report.DefaultWorkSheet;
-        report.SaveAs(fileName);
+        var report = LoadTemplate();
 
-        return fileName;
+        FillReport(report);
+
+        report.SaveAs(reportName);
+
+        return reportName;
     }
 
     public WorkBook CreateTemplate()
@@ -58,8 +60,80 @@ public class ReportGenerator : IReportGenerator
         {
             return WorkBook.Load("template.xlsx");
         }
-        
+
         return CreateTemplate();
+    }
+
+    public void FillReport(WorkBook report)
+    {
+        Dictionary<string, TimeSpan[]> timeTableData = new()
+        {
+            { "Current IronXL", GetCurrentIronXLTestData() },
+            { "Previous IronXL", GetPreviousIronXLTestData() },
+            { "Aspose", GetAsposeTestData() },
+        };
+
+        var sheet = report.DefaultWorkSheet;
+
+        FillHeader(sheet, headerRowAddress);
+        
+        var i = 0;
+        
+        foreach (var contender in timeTableData.Keys)
+        {
+            i++;
+            
+            var times = timeTableData[contender];
+
+            FillRow(sheet, i, contender, times);
+        }
+    }
+
+    private void FillHeader(WorkSheet sheet, string headerRowAddress)
+    {
+        string[] testList = _appConfig.TestList;
+
+        var i = 0;
+
+        foreach (var cell in sheet[headerRowAddress])
+        {
+            cell.Value = testList[i];
+
+            i++;
+        }
+    }
+
+    private static TimeSpan[] GetAsposeTestData()
+    {
+        var rnd = new Random();
+        var times = new TimeSpan[10];
+
+        for (int i = 0; i < times.Length; i++)
+        {
+            times[i] = TimeSpan.FromSeconds(rnd.Next(25, 100));
+        }
+
+        return times;
+    }
+
+    private static TimeSpan[] GetPreviousIronXLTestData()
+    {
+        return GetAsposeTestData();
+    }
+
+    private static TimeSpan[] GetCurrentIronXLTestData()
+    {
+        return GetAsposeTestData();
+    }
+
+    private void FillRow(WorkSheet sheet, int i, string contender, TimeSpan[] times)
+    {
+        var seriesRowNumber = _appConfig.TimeTableStartingRow + i;
+        var seriesRowAddress = $"B{seriesRowNumber}:K{seriesRowNumber}";
+
+        PutInSeriesData(sheet, seriesRowAddress, times);
+
+        sheet[$"A{seriesRowNumber}"].Value = contender;
     }
 
     private void FormatTimeTable(WorkSheet sheet)
@@ -96,11 +170,27 @@ public class ReportGenerator : IReportGenerator
     private static void PutInMockSeriesData(WorkSheet sheet, string seriesRowAddress)
     {
         var rnd = new Random();
+        var times = new TimeSpan[10];
+
+        for (int i = 0; i < times.Length; i++)
+        {
+            times[i] = TimeSpan.FromSeconds(rnd.Next(25, 100));
+        }
+
+        PutInSeriesData(sheet, seriesRowAddress, times);
+    }
+
+    private static void PutInSeriesData(WorkSheet sheet, string seriesRowAddress, TimeSpan[] times)
+    {
         var secondsInADay = 60 * 60 * 24;
+
+        var i = 0;
 
         foreach (var cell in sheet[seriesRowAddress])
         {
-            cell.Value = (double)rnd.Next(25, 100) / secondsInADay;
+            cell.Value = times[i].TotalSeconds / secondsInADay;
+
+            i++;
         }
     }
 
@@ -113,7 +203,7 @@ public class ReportGenerator : IReportGenerator
     {
         foreach (var cell in sheet[headerRowAddress])
         {
-            cell.Value = $"Test_{cell.ColumnIndex}";
+            cell.Value = $"Mock_Test_{cell.ColumnIndex}";
         }
     }
 

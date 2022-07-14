@@ -9,4 +9,6 @@ public interface IReportGenerator
     public WorkBook CreateTemplate();
 
     public WorkBook LoadTemplate();
+
+    public void FillReport(WorkBook report);
 }

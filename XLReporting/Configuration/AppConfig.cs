@@ -9,4 +9,5 @@ public class AppConfig : IAppConfig
     public int ContendersNumber { get; set; } = 3;
     public int TimeTableStartingRow { get; set; } = 27;
     public string? ChartTitle { get; set; }
+    public string[]? TestList { get; set; }
 }

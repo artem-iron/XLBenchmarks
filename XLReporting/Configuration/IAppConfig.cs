@@ -9,4 +9,6 @@ public interface IAppConfig
     public int ContendersNumber { get; set; }
     public int TimeTableStartingRow { get; set; }
     public string? ChartTitle { get; set; }
+
+    public string[] TestList { get; set; }
 }

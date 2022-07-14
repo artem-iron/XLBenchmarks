@@ -19,6 +19,11 @@ public class ReportGeneratorTests : TestsBase
         _appConfig.Object.ChartWidth = 11;
         _appConfig.Object.ContendersNumber = 3;
         _appConfig.Object.TimeTableStartingRow = 27;
+        _appConfig.Object.TestList = new string[] {
+            "Test1", "Test2", "Test3", "Test4",
+            "Test5", "Test6", "Test7", "Test8",
+            "Test9", "Test10"
+        };
 
         _reportGenerator = new ReportGenerator(_appConfig.Object);
     }
@@ -43,8 +48,19 @@ public class ReportGeneratorTests : TestsBase
     [TestMethod]
     public void LoadTemplate_TemplateIsLoadedOrCreated()
     {
-        var template = _reportGenerator.LoadTemplate();//_reportGenerator.LoadTemplate();
+        var template = _reportGenerator.LoadTemplate();
 
         Assert.IsNotNull(template);
+    }
+
+    [TestMethod]
+    public void FillReport_ReportIsFilled()
+    {
+        var report = _reportGenerator.LoadTemplate();
+
+        _reportGenerator.FillReport(report);
+
+        Assert.IsFalse(report.DefaultWorkSheet.FilledCells.Any(c => c.StringValue.Contains("Contender_")));
+        Assert.IsFalse(report.DefaultWorkSheet.FilledCells.Any(c => c.StringValue.Contains("Mock_Test_")));
     }
 }
