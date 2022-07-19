@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using XLReporting.Configuration;
 using IronXL;
 using Serilog;
+using XLReporting.Reporting;
 
 Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 
@@ -22,10 +23,13 @@ var host = Host.CreateDefaultBuilder()
     {
         services.AddSingleton<IAppConfig, AppConfig>(
             _ => configurationRoot.GetSection(nameof(AppConfig)).Get<AppConfig>());
+        services.AddTransient<IReportGenerator, ReportGenerator>();
     })
     .UseSerilog()
     .Build();
 
 var appConfig = ActivatorUtilities.GetServiceOrCreateInstance<IAppConfig>(host.Services);
-
 License.LicenseKey = appConfig.LicenseKey;
+
+var reportGenerator = ActivatorUtilities.CreateInstance<ReportGenerator>(host.Services);
+reportGenerator.GenerateReport();
