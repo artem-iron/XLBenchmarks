@@ -1,9 +1,8 @@
-﻿using System.Reflection;
-using IronXL;
+﻿using IronXL;
 using IronXL.Drawing.Charts;
 using IronXL.Formatting;
+using System.Reflection;
 using XLReporting.Configuration;
-using CurrentIronXL;
 
 namespace XLReporting.Reporting;
 
@@ -119,12 +118,12 @@ public class ReportGenerator : IReportGenerator
 
     private static TimeSpan[] GetPreviousIronXLTestData()
     {
-        return GetAsposeTestData();
+        return PreviousIronXL.TestRunner.RunTests();
     }
 
     private static TimeSpan[] GetCurrentIronXLTestData()
     {
-        return TestRunner.RunTests();
+        return CurrentIronXL.TestRunner.RunTests();
     }
 
     private void FillRow(WorkSheet sheet, int i, string contender, TimeSpan[] times)

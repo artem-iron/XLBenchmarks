@@ -26,6 +26,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\CurrentIronXL\CurrentIronXL.csproj" />
+      <ProjectReference Include="..\PreviousIronXL\PreviousIronXL.csproj" />
     </ItemGroup>
 
     <ItemGroup>
