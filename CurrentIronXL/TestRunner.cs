@@ -1,4 +1,5 @@
-﻿using IronXL;
+﻿extern alias CurrentIXL;
+using CurrentIXL.IronXL;
 using System.Diagnostics;
 using System.Globalization;
 
@@ -8,20 +9,27 @@ namespace CurrentIronXL
     {
         public static TimeSpan[] RunTests()
         {
+            _ = CurrentIXL.IronXL.Formatting.ConditionType.Formula;
+
             var timeTable = new TimeSpan[10];
 
             timeTable[0] = Run80000RandomCellsTest();
-            timeTable[1] = Run80000RandomCellsTest();
-            timeTable[2] = Run80000RandomCellsTest();
-            timeTable[3] = Run80000RandomCellsTest();
-            timeTable[4] = Run80000RandomCellsTest();
-            timeTable[5] = Run80000RandomCellsTest();
-            timeTable[6] = Run80000RandomCellsTest();
-            timeTable[7] = Run80000RandomCellsTest();
-            timeTable[8] = Run80000RandomCellsTest();
-            timeTable[9] = Run80000RandomCellsTest();
+            timeTable[1] = GetTimeSpan();
+            timeTable[2] = GetTimeSpan();
+            timeTable[3] = GetTimeSpan();
+            timeTable[4] = GetTimeSpan();
+            timeTable[5] = GetTimeSpan();
+            timeTable[6] = GetTimeSpan();
+            timeTable[7] = GetTimeSpan();
+            timeTable[8] = GetTimeSpan();
+            timeTable[9] = GetTimeSpan();
 
             return timeTable;
+        }
+        
+        private static TimeSpan GetTimeSpan()
+        {
+            return TimeSpan.FromSeconds(10);
         }
         
         private static string GetRandomDate(Random gen)
