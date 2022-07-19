@@ -9,12 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IronXL.Excel" Version="[2022.3.0]" Aliases="PreviousIXL"/>
+    <PackageReference Include="IronXL.Excel" Version="2022.3.0" Aliases="PreviousIXL" />
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <!--<Exec Command="xcopy &quot;$(OutDir)IronXL.dll&quot; &quot;$(SolutionDir)XLReporting\bin\Debug\net6.0\ixlPrev\&quot;" />-->
-	<!--<Exec Command="xcopy &quot;$(OutDir)IronXL.dll&quot; &quot;$(SolutionDir)XLReporting\bin\Debug\net6.0\ixlPrev\&quot;" />-->
+      <Exec Command="xcopy &quot;$(OutDir)IronXL.dll&quot; &quot;$(SolutionDir)XLReporting\bin\Debug\net6.0\ixlPrev\&quot; /Y" />
+	  <Exec Command="xcopy &quot;$(OutDir)IronXL.dll&quot; &quot;$(SolutionDir)XLReporting.Tests\bin\Debug\net6.0\ixlPrev\&quot; /Y" />
   </Target>
 
 </Project>
