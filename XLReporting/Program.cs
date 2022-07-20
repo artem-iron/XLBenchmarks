@@ -1,10 +1,10 @@
-﻿using System.Reflection;
+﻿using IronXL;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection;
-using XLReporting.Configuration;
-using IronXL;
+using Microsoft.Extensions.Hosting;
 using Serilog;
+using System.Reflection;
+using XLReporting.Configuration;
 using XLReporting.Reporting;
 
 Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;

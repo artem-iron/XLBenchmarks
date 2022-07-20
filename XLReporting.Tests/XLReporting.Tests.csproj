@@ -8,6 +8,9 @@
         <IsPackable>false</IsPackable>
 
         <UserSecretsId>73328c57-c513-491e-96d1-59b66fbeda64</UserSecretsId>
+
+		<AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+		<GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     </PropertyGroup>
 
     <ItemGroup>

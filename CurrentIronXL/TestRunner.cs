@@ -1,6 +1,8 @@
 ﻿extern alias CurrentIXL;
-using CurrentIXL.IronXL;
+using CurrentIXL::IronXL;
+using CurrentIXL::IronXL.Styles;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 
 namespace CurrentIronXL
@@ -13,9 +15,9 @@ namespace CurrentIronXL
 
             var timeTable = new TimeSpan[10];
 
-            timeTable[0] = Run80000RandomCellsTest();
-            timeTable[1] = GetTimeSpan();
-            timeTable[2] = GetTimeSpan();
+            timeTable[0] = Run320000RandomCellsTest();
+            timeTable[1] = Run160000DateCellsTest();
+            timeTable[2] = RunStyleChangesTest();
             timeTable[3] = GetTimeSpan();
             timeTable[4] = GetTimeSpan();
             timeTable[5] = GetTimeSpan();
@@ -57,7 +59,7 @@ namespace CurrentIronXL
             return firstBits | lastBits;
         }
         
-        private static TimeSpan Run80000RandomCellsTest()
+        private static TimeSpan Run320000RandomCellsTest()
         {
             var stopwatch = new Stopwatch();
 
@@ -85,6 +87,69 @@ namespace CurrentIronXL
                 worksheet["O" + i].Value = GetRandomDecimal(rand);
                 worksheet["P" + i].Value = GetRandomDecimal(rand);
             }
+
+            stopwatch.Stop();
+
+            return stopwatch.Elapsed;
+        }
+
+        private static TimeSpan Run160000DateCellsTest()
+        {
+            var stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+            var workbook = WorkBook.Create(ExcelFileFormat.XLSX);
+            var worksheet = workbook.DefaultWorkSheet;
+
+            int rowNo = 81233;
+            for (int i = 0; i < rowNo; i++)
+            {
+                int count = 1;
+                worksheet["A" + (count + i)].Value = i + 1;
+
+                worksheet["B" + (count + i)].Value = DateTime.Now;
+            }
+
+            stopwatch.Stop();
+
+            return stopwatch.Elapsed;
+        }
+
+        private static TimeSpan RunStyleChangesTest()
+        {
+            var stopwatch = new Stopwatch();
+
+            stopwatch.Start();
+            var workbook = WorkBook.Create(ExcelFileFormat.XLSX);
+            var worksheet = workbook.DefaultWorkSheet;
+
+            int _startRow = 7;
+            bool _addTopLine = false;
+            Color _dataColor2 = Color.WhiteSmoke;
+            Color _dataGridColor = _dataColor2;
+
+            worksheet.InsertRows(19, 319);
+            
+            var _fullRange = worksheet.GetRange("I" + _startRow.ToString() + ":" + "O319");
+            
+            _fullRange.Style.Font.Height = 22;
+            
+            worksheet["I7"].Style.Font.Height = 40;
+
+            _fullRange.Style.VerticalAlignment = VerticalAlignment.Bottom;
+            
+            _fullRange.Style.HorizontalAlignment = HorizontalAlignment.Left;
+            
+            var _centerRange = worksheet.GetRange("K" + _startRow.ToString() + ":" + "L319");
+            
+            _centerRange.Style.HorizontalAlignment = HorizontalAlignment.Center;
+            
+            /*for (int i = 7; i <= 319; i++)
+            {
+                CreateDataRow(i, 9, worksheet, _addTopLine, _dataGridColor);
+
+                _addTopLine = false;
+            }*/
 
             stopwatch.Stop();
 
