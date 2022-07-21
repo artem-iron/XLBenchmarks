@@ -105,15 +105,7 @@ public class ReportGenerator : IReportGenerator
 
     private static TimeSpan[] GetAsposeTestData()
     {
-        var rnd = new Random();
-        var times = new TimeSpan[10];
-
-        for (int i = 0; i < times.Length; i++)
-        {
-            times[i] = TimeSpan.FromSeconds(rnd.Next(25, 100));
-        }
-
-        return times;
+        return Aspose.TestRunner.RunTests();
     }
 
     private static TimeSpan[] GetPreviousIronXLTestData()

@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XLReporting", "XLReporting\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "XLReporting.Tests", "XLReporting.Tests\XLReporting.Tests.csproj", "{BC8F25F1-789C-4357-8701-814A199DBBE1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CurrentIronXL", "CurrentIronXL\CurrentIronXL.csproj", "{B696A06C-0B32-412C-BC66-F9E120F0F1F0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CurrentIronXL", "CurrentIronXL\CurrentIronXL.csproj", "{B696A06C-0B32-412C-BC66-F9E120F0F1F0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PreviousIronXL", "PreviousIronXL\PreviousIronXL.csproj", "{C8BF11B5-B361-4CF7-94D1-C0D5C7BE7E9C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PreviousIronXL", "PreviousIronXL\PreviousIronXL.csproj", "{C8BF11B5-B361-4CF7-94D1-C0D5C7BE7E9C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspose", "Aspose\Aspose.csproj", "{73B66BB5-CF5E-4B71-BFDB-8CC2D9B1821B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{C8BF11B5-B361-4CF7-94D1-C0D5C7BE7E9C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8BF11B5-B361-4CF7-94D1-C0D5C7BE7E9C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8BF11B5-B361-4CF7-94D1-C0D5C7BE7E9C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{73B66BB5-CF5E-4B71-BFDB-8CC2D9B1821B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{73B66BB5-CF5E-4B71-BFDB-8CC2D9B1821B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{73B66BB5-CF5E-4B71-BFDB-8CC2D9B1821B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{73B66BB5-CF5E-4B71-BFDB-8CC2D9B1821B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
