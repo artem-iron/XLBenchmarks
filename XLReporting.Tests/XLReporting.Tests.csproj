@@ -20,7 +20,13 @@
         <PackageReference Include="MSTest.TestFramework" Version="2.2.10" />
         <PackageReference Include="coverlet.collector" Version="3.1.2" />
     </ItemGroup>
-
+	
+	<ItemGroup>
+		<Reference Include="IronXLOld">
+			<HintPath>..\packages\IronXLOld.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+	
     <ItemGroup>
       <ProjectReference Include="..\XLReporting\XLReporting.csproj" />
     </ItemGroup>

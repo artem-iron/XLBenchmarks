@@ -1,5 +1,4 @@
 ﻿using System.Reflection;
-using IronXL;
 using Microsoft.Extensions.Configuration;
 
 namespace XLReporting.Tests;
@@ -15,7 +14,8 @@ public abstract class TestsBase
 
         var configurationRoot = builder.Build();
 
-        License.LicenseKey = configurationRoot.GetSection("LicenseKey").Value;
+        IronXL.License.LicenseKey = configurationRoot.GetSection("LicenseKey").Value;
+        IronXLOld.License.LicenseKey = configurationRoot.GetSection("LicenseKey").Value;
 
         Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
     }
