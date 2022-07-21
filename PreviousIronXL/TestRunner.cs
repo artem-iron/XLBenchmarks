@@ -1,6 +1,5 @@
-﻿extern alias PreviousIXL;
-using PreviousIXL::IronXL;
-using PreviousIXL::IronXL.Styles;
+﻿using IronXLOld;
+using IronXLOld.Styles;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -10,9 +9,7 @@ namespace PreviousIronXL
     public class TestRunner
     {
         public static TimeSpan[] RunTests()
-        {   
-            _ = PreviousIXL.IronXL.Formatting.Enums.ConditionType.None;
-            
+        {
             var timeTable = new TimeSpan[10];
 
             timeTable[0] = Run320000RandomCellsTest();
@@ -36,7 +33,7 @@ namespace PreviousIronXL
 
         private static string GetRandomDate(Random gen)
         {
-            DateTime start = new DateTime(1995, 1, 1);
+            DateTime start = new(1995, 1, 1);
             int range = (DateTime.Today - start).Days;
             return start.AddDays(gen.Next(range)).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
         }
@@ -124,9 +121,6 @@ namespace PreviousIronXL
             var worksheet = workbook.DefaultWorkSheet;
 
             int _startRow = 7;
-            bool _addTopLine = false;
-            Color _dataColor2 = Color.WhiteSmoke;
-            Color _dataGridColor = _dataColor2;
 
             worksheet.InsertRows(19, 319);
 
@@ -143,13 +137,6 @@ namespace PreviousIronXL
             var _centerRange = worksheet.GetRange("K" + _startRow.ToString() + ":" + "L319");
 
             _centerRange.Style.HorizontalAlignment = HorizontalAlignment.Center;
-
-            /*for (int i = 7; i <= 319; i++)
-            {
-                CreateDataRow(i, 9, worksheet, _addTopLine, _dataGridColor);
-
-                _addTopLine = false;
-            }*/
 
             stopwatch.Stop();
 

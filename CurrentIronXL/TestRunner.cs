@@ -1,6 +1,5 @@
-﻿extern alias CurrentIXL;
-using CurrentIXL::IronXL;
-using CurrentIXL::IronXL.Styles;
+﻿using IronXL;
+using IronXL.Styles;
 using System.Diagnostics;
 using System.Drawing;
 using System.Globalization;
@@ -11,8 +10,6 @@ namespace CurrentIronXL
     {
         public static TimeSpan[] RunTests()
         {
-            _ = CurrentIXL.IronXL.Formatting.ConditionType.Formula;
-
             var timeTable = new TimeSpan[10];
 
             timeTable[0] = Run320000RandomCellsTest();
@@ -36,7 +33,7 @@ namespace CurrentIronXL
         
         private static string GetRandomDate(Random gen)
         {
-            DateTime start = new DateTime(1995, 1, 1);
+            DateTime start = new(1995, 1, 1);
             int range = (DateTime.Today - start).Days;
             return start.AddDays(gen.Next(range)).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
         }
@@ -124,9 +121,6 @@ namespace CurrentIronXL
             var worksheet = workbook.DefaultWorkSheet;
 
             int _startRow = 7;
-            bool _addTopLine = false;
-            Color _dataColor2 = Color.WhiteSmoke;
-            Color _dataGridColor = _dataColor2;
 
             worksheet.InsertRows(19, 319);
             
@@ -144,13 +138,6 @@ namespace CurrentIronXL
             
             _centerRange.Style.HorizontalAlignment = HorizontalAlignment.Center;
             
-            /*for (int i = 7; i <= 319; i++)
-            {
-                CreateDataRow(i, 9, worksheet, _addTopLine, _dataGridColor);
-
-                _addTopLine = false;
-            }*/
-
             stopwatch.Stop();
 
             return stopwatch.Elapsed;

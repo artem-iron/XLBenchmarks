@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="IronXL.Excel" Version="2022.7.7362" Aliases="CurrentIXL" />
+	  <PackageReference Include="IronXL.Excel" Version="2022.7.7362" />
   </ItemGroup>
 
 </Project>
