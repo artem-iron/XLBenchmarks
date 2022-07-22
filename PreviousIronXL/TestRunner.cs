@@ -1,62 +1,12 @@
 ﻿using IronXLOld;
 using IronXLOld.Styles;
 using System.Diagnostics;
-using System.Drawing;
-using System.Globalization;
 
 namespace PreviousIronXL
 {
-    public class TestRunner
+    public class TestRunner : TestRunnerBase.TestRunner
     {
-        public static TimeSpan[] RunTests()
-        {
-            var timeTable = new TimeSpan[10];
-
-            timeTable[0] = Run320000RandomCellsTest();
-            timeTable[1] = Run160000DateCellsTest();
-            timeTable[2] = RunStyleChangesTest();
-            timeTable[3] = GetTimeSpan();
-            timeTable[4] = GetTimeSpan();
-            timeTable[5] = GetTimeSpan();
-            timeTable[6] = GetTimeSpan();
-            timeTable[7] = GetTimeSpan();
-            timeTable[8] = GetTimeSpan();
-            timeTable[9] = GetTimeSpan();
-
-            return timeTable;
-        }
-
-        private static TimeSpan GetTimeSpan()
-        {
-            return TimeSpan.FromSeconds(10);
-        }
-
-        private static string GetRandomDate(Random gen)
-        {
-            DateTime start = new(1995, 1, 1);
-            int range = (DateTime.Today - start).Days;
-            return start.AddDays(gen.Next(range)).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
-        }
-
-        private static decimal GetRandomDecimal(Random rng)
-        {
-            byte scale = (byte)rng.Next(29);
-            bool sign = rng.Next(2) == 1;
-            return new decimal(GetRandomRandInt(rng),
-                GetRandomRandInt(rng),
-                GetRandomRandInt(rng),
-                sign,
-                scale);
-        }
-
-        private static int GetRandomRandInt(Random rng)
-        {
-            int firstBits = rng.Next(0, 1 << 4) << 28;
-            int lastBits = rng.Next(0, 1 << 28);
-            return firstBits | lastBits;
-        }
-
-        private static TimeSpan Run320000RandomCellsTest()
+        public override TimeSpan Run320000RandomCellsTest()
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -91,7 +41,7 @@ namespace PreviousIronXL
             return stopwatch.Elapsed;
         }
 
-        private static TimeSpan Run160000DateCellsTest()
+        public override TimeSpan Run160000DateCellsTest()
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -113,7 +63,7 @@ namespace PreviousIronXL
             return stopwatch.Elapsed;
         }
 
-        private static TimeSpan RunStyleChangesTest()
+        public override TimeSpan RunStyleChangesTest()
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();

@@ -105,17 +105,17 @@ public class ReportGenerator : IReportGenerator
 
     private static TimeSpan[] GetAsposeTestData()
     {
-        return Aspose.TestRunner.RunTests();
+        return new Aspose.TestRunner().RunTests();
     }
 
     private static TimeSpan[] GetPreviousIronXLTestData()
     {
-        return PreviousIronXL.TestRunner.RunTests();
+        return new PreviousIronXL.TestRunner().RunTests();
     }
 
     private static TimeSpan[] GetCurrentIronXLTestData()
     {
-        return CurrentIronXL.TestRunner.RunTests();
+        return new CurrentIronXL.TestRunner().RunTests();
     }
 
     private void FillRow(WorkSheet sheet, int i, string contender, TimeSpan[] times)

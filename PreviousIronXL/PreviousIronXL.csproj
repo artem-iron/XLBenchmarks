@@ -8,6 +8,10 @@
 	<RunPostBuildEvent>Always</RunPostBuildEvent>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TestRunnerBase\TestRunnerBase.csproj" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<Reference Include="IronXLOld">
 			<HintPath>..\packages\IronXLOld.dll</HintPath>

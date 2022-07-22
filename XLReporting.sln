@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PreviousIronXL", "PreviousI
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Aspose", "Aspose\Aspose.csproj", "{73B66BB5-CF5E-4B71-BFDB-8CC2D9B1821B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestRunnerBase", "TestRunnerBase\TestRunnerBase.csproj", "{D3844A78-ED84-4EFC-A9B8-F5CD30AED1B7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,6 +41,10 @@ Global
 		{73B66BB5-CF5E-4B71-BFDB-8CC2D9B1821B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{73B66BB5-CF5E-4B71-BFDB-8CC2D9B1821B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{73B66BB5-CF5E-4B71-BFDB-8CC2D9B1821B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3844A78-ED84-4EFC-A9B8-F5CD30AED1B7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3844A78-ED84-4EFC-A9B8-F5CD30AED1B7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3844A78-ED84-4EFC-A9B8-F5CD30AED1B7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3844A78-ED84-4EFC-A9B8-F5CD30AED1B7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
