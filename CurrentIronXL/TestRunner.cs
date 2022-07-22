@@ -1,7 +1,6 @@
 ﻿using IronXL;
 using IronXL.Styles;
 using System.Diagnostics;
-using System.Drawing;
 using System.Globalization;
 
 namespace CurrentIronXL
@@ -55,12 +54,12 @@ namespace CurrentIronXL
             int lastBits = rng.Next(0, 1 << 28);
             return firstBits | lastBits;
         }
-        
+
         private static TimeSpan Run320000RandomCellsTest()
         {
             var stopwatch = new Stopwatch();
-
             stopwatch.Start();
+
             var workbook = WorkBook.Create(ExcelFileFormat.XLSX);
             var worksheet = workbook.DefaultWorkSheet;
 
@@ -85,61 +84,56 @@ namespace CurrentIronXL
                 worksheet["P" + i].Value = GetRandomDecimal(rand);
             }
 
-            stopwatch.Stop();
+            workbook.SaveAs("CurrentIXLRandomCells.xlsx");
 
+            stopwatch.Stop();
             return stopwatch.Elapsed;
         }
 
         private static TimeSpan Run160000DateCellsTest()
         {
             var stopwatch = new Stopwatch();
-
             stopwatch.Start();
+
             var workbook = WorkBook.Create(ExcelFileFormat.XLSX);
             var worksheet = workbook.DefaultWorkSheet;
 
-            int rowNo = 81233;
-            for (int i = 0; i < rowNo; i++)
-            {
-                int count = 1;
-                worksheet["A" + (count + i)].Value = i + 1;
+            int rowNo = 80000;
 
-                worksheet["B" + (count + i)].Value = DateTime.Now;
+            for (int i = 1; i < rowNo; i++)
+            {
+                worksheet["A" + i].Value = i + 1;
+                worksheet["B" + i].Value = DateTime.Now;
             }
 
-            stopwatch.Stop();
+            workbook.SaveAs("CurrentIXLDateCells.xlsx");
 
+            stopwatch.Stop();
             return stopwatch.Elapsed;
         }
 
         private static TimeSpan RunStyleChangesTest()
         {
             var stopwatch = new Stopwatch();
-
             stopwatch.Start();
+
             var workbook = WorkBook.Create(ExcelFileFormat.XLSX);
             var worksheet = workbook.DefaultWorkSheet;
 
-            int _startRow = 7;
-
             worksheet.InsertRows(19, 319);
-            
-            var _fullRange = worksheet.GetRange("I" + _startRow.ToString() + ":" + "O319");
-            
-            _fullRange.Style.Font.Height = 22;
-            
-            worksheet["I7"].Style.Font.Height = 40;
 
-            _fullRange.Style.VerticalAlignment = VerticalAlignment.Bottom;
-            
-            _fullRange.Style.HorizontalAlignment = HorizontalAlignment.Left;
-            
-            var _centerRange = worksheet.GetRange("K" + _startRow.ToString() + ":" + "L319");
-            
-            _centerRange.Style.HorizontalAlignment = HorizontalAlignment.Center;
-            
+            var range = worksheet.GetRange("I7:O319");
+            range.Value = "Value";
+
+            var style = range.Style;
+
+            style.Font.Height = 22;
+            style.VerticalAlignment = VerticalAlignment.Bottom;
+            style.HorizontalAlignment = HorizontalAlignment.Left;
+
+            workbook.SaveAs("CurrentIXLStyleChange.xlsx");
+
             stopwatch.Stop();
-
             return stopwatch.Elapsed;
         }
     }

@@ -57,8 +57,8 @@ namespace Aspose
         private static TimeSpan Run320000RandomCellsTest()
         {
             var stopwatch = new Stopwatch();
-
             stopwatch.Start();
+            
             var workbook = new Workbook();
             var worksheet = workbook.Worksheets[0];
             var cells = worksheet.Cells;
@@ -84,59 +84,60 @@ namespace Aspose
                 cells["P" + i].Value = GetRandomDecimal(rand);
             }
 
-            stopwatch.Stop();
+            workbook.Save("AsposeRandomCells.xlsx");
 
+            stopwatch.Stop();
             return stopwatch.Elapsed;
         }
 
         private static TimeSpan Run160000DateCellsTest()
         {
             var stopwatch = new Stopwatch();
-
             stopwatch.Start();
+            
             var workbook = new Workbook();
             var worksheet = workbook.Worksheets[0];
             var cells = worksheet.Cells;
 
-            int rowNo = 81233;
-            for (int i = 0; i < rowNo; i++)
+            int rowNo = 80000;
+            
+            for (int i = 1; i < rowNo; i++)
             {
-                int count = 1;
-                cells["A" + (count + i)].Value = i + 1;
-
-                cells["B" + (count + i)].Value = DateTime.Now;
+                cells["A" + i].Value = i + 1;
+                cells["B" + i].Value = DateTime.Now;
             }
 
-            stopwatch.Stop();
+            workbook.Save("AsposeDateCells.xlsx");
 
+            stopwatch.Stop();
             return stopwatch.Elapsed;
         }
 
         private static TimeSpan RunStyleChangesTest()
         {
             var stopwatch = new Stopwatch();
-
             stopwatch.Start();
+            
             var workbook = new Workbook();
             var worksheet = workbook.Worksheets[0];
             var cells = worksheet.Cells;
 
-            int _startRow = 7;
-
             cells.InsertRows(19, 319);
 
-            var _fullRange = cells.CreateRange("I" + _startRow.ToString() + ":" + "O319");
-
+            var range = cells.CreateRange("I7:O319");
+            range.Value = "Value";
+            
             var style = new CellsFactory().CreateStyle();
 
             style.Font.Size = 22;
             style.VerticalAlignment = TextAlignmentType.Bottom;
             style.HorizontalAlignment = TextAlignmentType.Left;
 
-            _fullRange.ApplyStyle(style, new StyleFlag() { Font = true, VerticalAlignment = true, HorizontalAlignment = true });
+            range.ApplyStyle(style, new StyleFlag() { Font = true, VerticalAlignment = true, HorizontalAlignment = true });
 
+            workbook.Save("AsposeStyleChange.xlsx");
+            
             stopwatch.Stop();
-
             return stopwatch.Elapsed;
         }
     }
