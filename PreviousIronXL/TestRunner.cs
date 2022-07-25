@@ -69,7 +69,7 @@ namespace PreviousIronXL
             int styleChangeRowNumber = 10;
             worksheet.InsertRows(1, styleChangeRowNumber);
 
-            var range = worksheet.GetRange($"A1:O{styleChangeRowNumber}");
+            var range = worksheet.GetRange($"A1:A{styleChangeRowNumber}");
             range.Value = CELL_VALUE;
 
             var style = range.Style;
