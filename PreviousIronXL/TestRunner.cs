@@ -6,7 +6,9 @@ namespace PreviousIronXL
 {
     public class TestRunner : TestRunnerBase.TestRunner
     {
-        public override TimeSpan Run320000RandomCellsTest()
+        public override string TestRunnerName => typeof(TestRunner).Namespace ?? "PreviousIronXL";
+
+        public override TimeSpan RunRandomCellsTest(bool savingResultingFile)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -15,7 +17,7 @@ namespace PreviousIronXL
             var worksheet = workbook.DefaultWorkSheet;
 
             var rand = new Random();
-            for (int i = 1; i <= 20000; i++)
+            for (int i = 1; i <= RandomCellsRowNumber; i++)
             {
                 worksheet["A" + i].Value = $"=\"{Guid.NewGuid()}\"";
                 worksheet["B" + i].Value = $"=\"{Guid.NewGuid()}\"";
@@ -34,36 +36,17 @@ namespace PreviousIronXL
                 worksheet["O" + i].Value = GetRandomDecimal(rand);
                 worksheet["P" + i].Value = GetRandomDecimal(rand);
             }
-
-            workbook.SaveAs("PreviousIXLRandomCells.xlsx");
-
-            stopwatch.Stop();
-            return stopwatch.Elapsed;
-        }
-
-        public override TimeSpan Run160000DateCellsTest()
-        {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
             
-            var workbook = WorkBook.Create(ExcelFileFormat.XLSX);
-            var worksheet = workbook.DefaultWorkSheet;
-
-            int rowNo = 80000;
-            
-            for (int i = 1; i < rowNo; i++)
+            if (savingResultingFile)
             {
-                worksheet["A" + i].Value = i + 1;
-                worksheet["B" + i].Value = DateTime.Now;
+                workbook.SaveAs(RandomCellsFileName);
             }
 
-            workbook.SaveAs("PreviousIXLDateCells.xlsx");
-
             stopwatch.Stop();
             return stopwatch.Elapsed;
         }
 
-        public override TimeSpan RunStyleChangesTest()
+        public override TimeSpan RunDateCellsTest(bool savingResultingFile)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
@@ -71,18 +54,43 @@ namespace PreviousIronXL
             var workbook = WorkBook.Create(ExcelFileFormat.XLSX);
             var worksheet = workbook.DefaultWorkSheet;
 
-            worksheet.InsertRows(19, 319);
+            for (int i = 1; i < DateCellsNumber; i++)
+            {
+                worksheet["A" + i].Value = DateTime.Now;
+            }
 
-            var range = worksheet.GetRange("I7:O319");
-            range.Value = "Value";
-            
+            if (savingResultingFile)
+            {
+                workbook.SaveAs(DateCellsFileName);
+            }
+
+            stopwatch.Stop();
+            return stopwatch.Elapsed;
+        }
+
+        public override TimeSpan RunStyleChangesTest(bool savingResultingFile)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+
+            var workbook = WorkBook.Create(ExcelFileFormat.XLSX);
+            var worksheet = workbook.DefaultWorkSheet;
+            int styleChangeRowNumber = 10;
+            worksheet.InsertRows(1, styleChangeRowNumber);
+
+            var range = worksheet.GetRange($"A1:O{styleChangeRowNumber}");
+            range.Value = CELL_VALUE;
+
             var style = range.Style;
-            
-            style.Font.Height = 22;
-            style.VerticalAlignment = VerticalAlignment.Bottom;
-            style.HorizontalAlignment = HorizontalAlignment.Left;
 
-            workbook.SaveAs("PreviousIXLStyleChange.xlsx");
+            style.Font.Height = 22;
+            style.VerticalAlignment = VerticalAlignment.Top;
+            style.HorizontalAlignment = HorizontalAlignment.Right;
+
+            if (savingResultingFile)
+            {
+                workbook.SaveAs(StyleChangeFileName);
+            }
 
             stopwatch.Stop();
             return stopwatch.Elapsed;

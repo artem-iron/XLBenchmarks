@@ -4,16 +4,29 @@ namespace TestRunnerBase
 {
     public abstract class TestRunner
     {
+        public static readonly int DateCellsNumber = 80000;
+        public static readonly int RandomCellsRowNumber = 20000;
+        public static readonly int StyleChangeRowNumber = 300;
+
+        public static readonly string RANDOM_CELLS_FILE_NAME_TEMPLATE = "{0}_RandomCells.xlsx";
+        public static readonly string DATE_CELLS_FILE_NAME_TEMPLATE = "{0}_DateCells.xlsx";
+        public static readonly string STYLE_CHANGE_FILE_NAME_TEMPLATE = "{0}_StyleChange.xlsx";
+        public static readonly string CELL_VALUE = "CellValue";
+
+        public string RandomCellsFileName => string.Format(CultureInfo.InvariantCulture, RANDOM_CELLS_FILE_NAME_TEMPLATE, TestRunnerName);
+        public string DateCellsFileName => string.Format(CultureInfo.InvariantCulture, DATE_CELLS_FILE_NAME_TEMPLATE, TestRunnerName);
+        public string StyleChangeFileName => string.Format(CultureInfo.InvariantCulture, STYLE_CHANGE_FILE_NAME_TEMPLATE, TestRunnerName);
+
         public TimeSpan[] RunTests()
         {
             var timeTable = new TimeSpan[10];
 
-            timeTable[0] = Run320000RandomCellsTest();
-            timeTable[1] = Run160000DateCellsTest();
-            timeTable[2] = RunStyleChangesTest();
-            timeTable[3] = GetTimeSpan();
-            timeTable[4] = GetTimeSpan();
-            timeTable[5] = GetTimeSpan();
+            timeTable[0] = RunRandomCellsTest(false);
+            timeTable[1] = RunRandomCellsTest(true);
+            timeTable[2] = RunDateCellsTest(false);
+            timeTable[3] = RunDateCellsTest(true);
+            timeTable[4] = RunStyleChangesTest(false);
+            timeTable[5] = RunStyleChangesTest(true);
             timeTable[6] = GetTimeSpan();
             timeTable[7] = GetTimeSpan();
             timeTable[8] = GetTimeSpan();
@@ -22,9 +35,10 @@ namespace TestRunnerBase
             return timeTable;
         }
 
-        public abstract TimeSpan Run320000RandomCellsTest();
-        public abstract TimeSpan Run160000DateCellsTest();
-        public abstract TimeSpan RunStyleChangesTest();
+        public abstract string TestRunnerName { get; }
+        public abstract TimeSpan RunRandomCellsTest(bool savingResultingFile);
+        public abstract TimeSpan RunDateCellsTest(bool savingResultingFile);
+        public abstract TimeSpan RunStyleChangesTest(bool savingResultingFile);
 
 
         public static TimeSpan GetTimeSpan()

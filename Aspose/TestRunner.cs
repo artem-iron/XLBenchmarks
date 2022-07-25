@@ -5,17 +5,18 @@ namespace Aspose
 {
     public class TestRunner : TestRunnerBase.TestRunner
     {
-        public override TimeSpan Run320000RandomCellsTest()
+        public override string TestRunnerName => typeof(TestRunner).Namespace ?? "Aspose";
+
+        public override TimeSpan RunRandomCellsTest(bool savingResultingFile)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             
             var workbook = new Workbook();
-            var worksheet = workbook.Worksheets[0];
-            var cells = worksheet.Cells;
+            var cells = workbook.Worksheets[0].Cells;
 
             var rand = new Random();
-            for (int i = 1; i <= 20000; i++)
+            for (int i = 1; i <= RandomCellsRowNumber; i++)
             {
                 cells["A" + i].Value = $"=\"{Guid.NewGuid()}\"";
                 cells["B" + i].Value = $"=\"{Guid.NewGuid()}\"";
@@ -35,59 +36,63 @@ namespace Aspose
                 cells["P" + i].Value = GetRandomDecimal(rand);
             }
 
-            workbook.Save("AsposeRandomCells.xlsx");
-
-            stopwatch.Stop();
-            return stopwatch.Elapsed;
-        }
-
-        public override TimeSpan Run160000DateCellsTest()
-        {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-            
-            var workbook = new Workbook();
-            var worksheet = workbook.Worksheets[0];
-            var cells = worksheet.Cells;
-
-            int rowNo = 80000;
-            
-            for (int i = 1; i < rowNo; i++)
+            if (savingResultingFile)
             {
-                cells["A" + i].Value = i + 1;
-                cells["B" + i].Value = DateTime.Now;
+                workbook.Save(RandomCellsFileName);
             }
 
-            workbook.Save("AsposeDateCells.xlsx");
-
             stopwatch.Stop();
             return stopwatch.Elapsed;
         }
 
-        public override TimeSpan RunStyleChangesTest()
+        public override TimeSpan RunDateCellsTest(bool savingResultingFile)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
             
             var workbook = new Workbook();
-            var worksheet = workbook.Worksheets[0];
-            var cells = worksheet.Cells;
+            var cells = workbook.Worksheets[0].Cells;
 
-            cells.InsertRows(19, 319);
+            for (int i = 1; i < DateCellsNumber; i++)
+            {
+                cells["A" + i].Value = DateTime.Now;
+            }
 
-            var range = cells.CreateRange("I7:O319");
-            range.Value = "Value";
+            if (savingResultingFile)
+            {
+                workbook.Save(DateCellsFileName);
+            }
+
+            stopwatch.Stop();
+            return stopwatch.Elapsed;
+        }
+
+        public override TimeSpan RunStyleChangesTest(bool savingResultingFile)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            
+            var workbook = new Workbook();
+            var cells = workbook.Worksheets[0].Cells;
+
+            cells.InsertRows(1, StyleChangeRowNumber);
+
+            var range = cells.CreateRange($"A1:O{StyleChangeRowNumber}");
+            range.Value = CELL_VALUE;
             
             var style = new CellsFactory().CreateStyle();
 
             style.Font.Size = 22;
-            style.VerticalAlignment = TextAlignmentType.Bottom;
-            style.HorizontalAlignment = TextAlignmentType.Left;
+            style.VerticalAlignment = TextAlignmentType.Top;
+            style.HorizontalAlignment = TextAlignmentType.Right;
 
             range.ApplyStyle(style, new StyleFlag() { Font = true, VerticalAlignment = true, HorizontalAlignment = true });
 
-            workbook.Save("AsposeStyleChange.xlsx");
-            
+            if (savingResultingFile)
+            {
+                workbook.Save(StyleChangeFileName);
+            }
+
             stopwatch.Stop();
             return stopwatch.Elapsed;
         }
