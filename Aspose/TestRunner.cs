@@ -7,18 +7,26 @@ namespace Aspose
         protected override string TestRunnerName => typeof(TestRunner).Namespace ?? "Aspose";
         protected override void RandomCellsTest(bool savingResultingFile)
         {
-            DoTestWork(CreateRandomCells, savingResultingFile);
+            DoTestWork(CreateRandomCells, RandomCellsFileName, savingResultingFile);
         }
         protected override void DateCellsTest(bool savingResultingFile)
         {
-            DoTestWork(CreateDateCells, savingResultingFile);
+            DoTestWork(CreateDateCells, DateCellsFileName, savingResultingFile);
         }
         protected override void StyleChangesTest(bool savingResultingFile)
         {
-            DoTestWork(MakeStyleChanges, savingResultingFile);
+            DoTestWork(MakeStyleChanges, StyleChangeFileName, savingResultingFile);
+        }
+        protected override void LoadingBigFileTest(bool savingResultingFile)
+        {
+            var workbook = new Workbook(BigFileName);
+            if (savingResultingFile)
+            {
+                workbook.Save(LoadingBigFileName);
+            }
         }
 
-        private void DoTestWork(Action<Cells.Cells> methodName, bool savingResultingFile)
+        private static void DoTestWork(Action<Cells.Cells> methodName, string fileName, bool savingResultingFile)
         {
             var workbook = new Workbook();
             var cells = workbook.Worksheets[0].Cells;
@@ -27,7 +35,7 @@ namespace Aspose
 
             if (savingResultingFile)
             {
-                workbook.Save(StyleChangeFileName);
+                workbook.Save(fileName);
             }
         }
 

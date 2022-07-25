@@ -19,6 +19,8 @@ public class ReportGenerator : IReportGenerator
 
     public string GenerateReport()
     {
+        CreateReportsFolder();
+        
         var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         if (path == null)
@@ -26,7 +28,7 @@ public class ReportGenerator : IReportGenerator
             return "";
         }
 
-        var reportName = Path.Combine(path, $"Report_{DateTime.Now:yyyy-MM-d_HH-mm-ss}.xlsx");
+        var reportName = Path.Combine(path, $"{_appConfig.ReportsFolder}\\Report_{DateTime.Now:yyyy-MM-d_HH-mm-ss}.xlsx");
 
         var report = LoadTemplate();
 
@@ -89,6 +91,23 @@ public class ReportGenerator : IReportGenerator
         }
         
         UpdateChart(sheet);
+    }
+    
+    private void CreateReportsFolder ()
+    {
+        var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+
+        if (path == null)
+        {
+            return;
+        }
+
+        var reportsFolder = Path.Combine(path, _appConfig.ReportsFolder);
+
+        if (!Directory.Exists(reportsFolder))
+        {
+            Directory.CreateDirectory(reportsFolder);
+        }
     }
 
     private void FillHeader(WorkSheet sheet, string headerRowAddress)

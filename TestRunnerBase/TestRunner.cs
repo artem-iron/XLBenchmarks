@@ -9,17 +9,23 @@ namespace TestRunnerBase
         protected static readonly int RandomCellsRowNumber = 20000;
         protected static readonly int StyleChangeRowNumber = 300;
 
-        protected static readonly string RANDOM_CELLS_FILE_NAME_TEMPLATE = "{0}_RandomCells.xlsx";
-        protected static readonly string DATE_CELLS_FILE_NAME_TEMPLATE = "{0}_DateCells.xlsx";
-        protected static readonly string STYLE_CHANGE_FILE_NAME_TEMPLATE = "{0}_StyleChange.xlsx";
+        protected static readonly string RESULTS_FOLDER_NAME = @"Results\";
+        protected static readonly string RANDOM_CELLS_FILE_NAME_TEMPLATE = "{0}{1}_RandomCells.xlsx";
+        protected static readonly string DATE_CELLS_FILE_NAME_TEMPLATE = "{0}{1}_DateCells.xlsx";
+        protected static readonly string STYLE_CHANGE_FILE_NAME_TEMPLATE = "{0}{1}_StyleChange.xlsx";
+        protected static readonly string LOADING_BIG_FILE_NAME_TEMPLATE = "{0}{1}_LoadingBigFile.xlsx";
         protected static readonly string CELL_VALUE = "CellValue";
 
-        protected string RandomCellsFileName => string.Format(CultureInfo.InvariantCulture, RANDOM_CELLS_FILE_NAME_TEMPLATE, TestRunnerName);
-        protected string DateCellsFileName => string.Format(CultureInfo.InvariantCulture, DATE_CELLS_FILE_NAME_TEMPLATE, TestRunnerName);
-        protected string StyleChangeFileName => string.Format(CultureInfo.InvariantCulture, STYLE_CHANGE_FILE_NAME_TEMPLATE, TestRunnerName);
+        protected string RandomCellsFileName => string.Format(CultureInfo.InvariantCulture, RANDOM_CELLS_FILE_NAME_TEMPLATE, RESULTS_FOLDER_NAME, TestRunnerName);
+        protected string DateCellsFileName => string.Format(CultureInfo.InvariantCulture, DATE_CELLS_FILE_NAME_TEMPLATE, RESULTS_FOLDER_NAME, TestRunnerName);
+        protected string StyleChangeFileName => string.Format(CultureInfo.InvariantCulture, STYLE_CHANGE_FILE_NAME_TEMPLATE, RESULTS_FOLDER_NAME, TestRunnerName);
+        protected string LoadingBigFileName => string.Format(CultureInfo.InvariantCulture, LOADING_BIG_FILE_NAME_TEMPLATE, RESULTS_FOLDER_NAME, TestRunnerName);
+        protected string BigFileName => @"LoadingTestFiles\LoadingTest.xlsx";
 
         public TimeSpan[] RunTests()
         {
+            CreateResultsFolder();
+
             var timeTable = new TimeSpan[10];
 
             timeTable[0] = RunRandomCellsTest(false);
@@ -28,8 +34,8 @@ namespace TestRunnerBase
             timeTable[3] = RunDateCellsTest(true);
             timeTable[4] = RunStyleChangesTest(false);
             timeTable[5] = RunStyleChangesTest(true);
-            timeTable[6] = GetTimeSpan();
-            timeTable[7] = GetTimeSpan();
+            timeTable[6] = RunLoadingBigFileTest(false);
+            timeTable[7] = RunLoadingBigFileTest(true);
             timeTable[8] = GetTimeSpan();
             timeTable[9] = GetTimeSpan();
 
@@ -48,6 +54,10 @@ namespace TestRunnerBase
         {
             return RunTest(StyleChangesTest, savingResultingFile);
         }
+        private TimeSpan RunLoadingBigFileTest(bool savingResultingFile)
+        {
+            return RunTest(LoadingBigFileTest, savingResultingFile);
+        }
         private static TimeSpan RunTest(Action<bool> testName, bool savingResultingFile)
         {
             var stopwatch = new Stopwatch();
@@ -63,6 +73,7 @@ namespace TestRunnerBase
         protected abstract void RandomCellsTest(bool savingResultingFile);
         protected abstract void DateCellsTest(bool savingResultingFile);
         protected abstract void StyleChangesTest(bool savingResultingFile);
+        protected abstract void LoadingBigFileTest(bool savingResultingFile);
 
 
         protected static TimeSpan GetTimeSpan()
@@ -93,6 +104,14 @@ namespace TestRunnerBase
             int firstBits = rng.Next(0, 1 << 4) << 28;
             int lastBits = rng.Next(0, 1 << 28);
             return firstBits | lastBits;
+        }
+
+        private static void CreateResultsFolder()
+        {
+            if (!Directory.Exists(RESULTS_FOLDER_NAME))
+            {
+                Directory.CreateDirectory(RESULTS_FOLDER_NAME);
+            }
         }
     }
 }

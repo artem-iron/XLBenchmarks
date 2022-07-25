@@ -4,6 +4,7 @@ public class AppConfig : IAppConfig
 {
     public string? Environment { get; set; }
     public string? LicenseKey { get; set; }
+    public string ReportsFolder { get; set; } = "Reports";
     public int ChartWidth { get; set; } = 11;
     public int ChartHeight { get; set; } = 24;
     public int ContendersNumber { get; set; } = 3;

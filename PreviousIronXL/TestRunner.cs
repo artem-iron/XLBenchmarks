@@ -8,18 +8,26 @@ namespace PreviousIronXL
         protected override string TestRunnerName => typeof(TestRunner).Namespace ?? "PreviousIronXL";
         protected override void RandomCellsTest(bool savingResultingFile)
         {
-            DoTestWork(CreateRandomCells, savingResultingFile);
+            DoTestWork(CreateRandomCells, RandomCellsFileName, savingResultingFile);
         }
         protected override void DateCellsTest(bool savingResultingFile)
         {
-            DoTestWork(CreateDateCells, savingResultingFile);
+            DoTestWork(CreateDateCells, DateCellsFileName, savingResultingFile);
         }
         protected override void StyleChangesTest(bool savingResultingFile)
         {
-            DoTestWork(MakeStyleChanges, savingResultingFile);
+            DoTestWork(MakeStyleChanges, StyleChangeFileName, savingResultingFile);
+        }
+        protected override void LoadingBigFileTest(bool savingResultingFile)
+        {
+            var workbook = WorkBook.Load(BigFileName);
+            if (savingResultingFile)
+            {
+                workbook.SaveAs(LoadingBigFileName);
+            }
         }
 
-        private void DoTestWork(Action<WorkSheet> methodName, bool savingResultingFile)
+        private static void DoTestWork(Action<WorkSheet> methodName, string fileName, bool savingResultingFile)
         {
             var workbook = new WorkBook();
             var cells = workbook.DefaultWorkSheet;
@@ -28,7 +36,7 @@ namespace PreviousIronXL
 
             if (savingResultingFile)
             {
-                workbook.SaveAs(StyleChangeFileName);
+                workbook.SaveAs(fileName);
             }
         }
 
