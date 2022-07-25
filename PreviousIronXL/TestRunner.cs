@@ -58,7 +58,8 @@ namespace PreviousIronXL
 
         private static void CreateDateCells(WorkSheet worksheet)
         {
-            for (int i = 1; i < DateCellsNumber; i++)
+            int dateCellsNumber = 60000;
+            for (int i = 1; i < dateCellsNumber; i++)
             {
                 worksheet["A" + i].Value = DateTime.Now;
             }
@@ -66,7 +67,7 @@ namespace PreviousIronXL
 
         private static void MakeStyleChanges(WorkSheet worksheet)
         {
-            int styleChangeRowNumber = 10;
+            int styleChangeRowNumber = 50;
             worksheet.InsertRows(1, styleChangeRowNumber);
 
             var range = worksheet.GetRange($"A1:A{styleChangeRowNumber}");

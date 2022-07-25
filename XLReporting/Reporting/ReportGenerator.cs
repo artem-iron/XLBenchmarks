@@ -76,17 +76,19 @@ public class ReportGenerator : IReportGenerator
         var sheet = report.DefaultWorkSheet;
 
         FillHeader(sheet, headerRowAddress);
-        
+
         var i = 0;
-        
+
         foreach (var contender in timeTableData.Keys)
         {
             i++;
-            
+
             var times = timeTableData[contender];
 
             FillRow(sheet, i, contender, times);
         }
+        
+        UpdateChart(sheet);
     }
 
     private void FillHeader(WorkSheet sheet, string headerRowAddress)
@@ -208,6 +210,9 @@ public class ReportGenerator : IReportGenerator
             var seriesRowNumber = _appConfig.TimeTableStartingRow + i;
             var seriesRowAddress = $"B{seriesRowNumber}:K{seriesRowNumber}";
 
+            var range = sheet[seriesRowAddress];
+            range.FormatString = BuiltinFormats.Number0;
+
             var series = chart.AddSeries(seriesRowAddress, headerRowAddress);
             series.Title = sheet[$"A{seriesRowNumber}"].StringValue;
         }
@@ -215,5 +220,24 @@ public class ReportGenerator : IReportGenerator
         chart.SetTitle(_appConfig.ChartTitle);
         chart.SetLegendPosition(LegendPosition.Bottom);
         chart.Plot();
+    }
+
+    private static void RemoveChart(WorkSheet sheet)
+    {
+        var chart = sheet.Charts.FirstOrDefault();
+
+        if (chart != null)
+        {
+            sheet.Charts.Remove(chart);
+        }
+    }
+
+    private void UpdateChart(WorkSheet sheet)
+    {
+        RemoveChart(sheet);
+
+        AddChart(sheet);
+
+        FormatTimeTable(sheet);
     }
 }
