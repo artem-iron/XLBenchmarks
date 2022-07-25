@@ -1,21 +1,22 @@
-﻿using System.Globalization;
+﻿using System.Diagnostics;
+using System.Globalization;
 
 namespace TestRunnerBase
 {
     public abstract class TestRunner
     {
-        public static readonly int DateCellsNumber = 80000;
-        public static readonly int RandomCellsRowNumber = 20000;
-        public static readonly int StyleChangeRowNumber = 300;
+        protected static readonly int DateCellsNumber = 80000;
+        protected static readonly int RandomCellsRowNumber = 20000;
+        protected static readonly int StyleChangeRowNumber = 300;
 
-        public static readonly string RANDOM_CELLS_FILE_NAME_TEMPLATE = "{0}_RandomCells.xlsx";
-        public static readonly string DATE_CELLS_FILE_NAME_TEMPLATE = "{0}_DateCells.xlsx";
-        public static readonly string STYLE_CHANGE_FILE_NAME_TEMPLATE = "{0}_StyleChange.xlsx";
-        public static readonly string CELL_VALUE = "CellValue";
+        protected static readonly string RANDOM_CELLS_FILE_NAME_TEMPLATE = "{0}_RandomCells.xlsx";
+        protected static readonly string DATE_CELLS_FILE_NAME_TEMPLATE = "{0}_DateCells.xlsx";
+        protected static readonly string STYLE_CHANGE_FILE_NAME_TEMPLATE = "{0}_StyleChange.xlsx";
+        protected static readonly string CELL_VALUE = "CellValue";
 
-        public string RandomCellsFileName => string.Format(CultureInfo.InvariantCulture, RANDOM_CELLS_FILE_NAME_TEMPLATE, TestRunnerName);
-        public string DateCellsFileName => string.Format(CultureInfo.InvariantCulture, DATE_CELLS_FILE_NAME_TEMPLATE, TestRunnerName);
-        public string StyleChangeFileName => string.Format(CultureInfo.InvariantCulture, STYLE_CHANGE_FILE_NAME_TEMPLATE, TestRunnerName);
+        protected string RandomCellsFileName => string.Format(CultureInfo.InvariantCulture, RANDOM_CELLS_FILE_NAME_TEMPLATE, TestRunnerName);
+        protected string DateCellsFileName => string.Format(CultureInfo.InvariantCulture, DATE_CELLS_FILE_NAME_TEMPLATE, TestRunnerName);
+        protected string StyleChangeFileName => string.Format(CultureInfo.InvariantCulture, STYLE_CHANGE_FILE_NAME_TEMPLATE, TestRunnerName);
 
         public TimeSpan[] RunTests()
         {
@@ -35,25 +36,48 @@ namespace TestRunnerBase
             return timeTable;
         }
 
-        public abstract string TestRunnerName { get; }
-        public abstract TimeSpan RunRandomCellsTest(bool savingResultingFile);
-        public abstract TimeSpan RunDateCellsTest(bool savingResultingFile);
-        public abstract TimeSpan RunStyleChangesTest(bool savingResultingFile);
+        private TimeSpan RunRandomCellsTest(bool savingResultingFile)
+        {
+            return RunTest(RandomCellsTest, savingResultingFile);
+        }
+        private TimeSpan RunDateCellsTest(bool savingResultingFile)
+        {
+            return RunTest(DateCellsTest, savingResultingFile);
+        }
+        private TimeSpan RunStyleChangesTest(bool savingResultingFile)
+        {
+            return RunTest(StyleChangesTest, savingResultingFile);
+        }
+        private static TimeSpan RunTest(Action<bool> testName, bool savingResultingFile)
+        {
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
+            
+            testName(savingResultingFile);
+            
+            stopwatch.Stop();
+            return stopwatch.Elapsed;
+        }
+        
+        protected abstract string TestRunnerName { get; }
+        protected abstract void RandomCellsTest(bool savingResultingFile);
+        protected abstract void DateCellsTest(bool savingResultingFile);
+        protected abstract void StyleChangesTest(bool savingResultingFile);
 
 
-        public static TimeSpan GetTimeSpan()
+        protected static TimeSpan GetTimeSpan()
         {
             return TimeSpan.FromSeconds(10);
         }
 
-        public static string GetRandomDate(Random gen)
+        protected static string GetRandomDate(Random gen)
         {
             DateTime start = new(1995, 1, 1);
             int range = (DateTime.Today - start).Days;
             return start.AddDays(gen.Next(range)).ToString("dd/MM/yyyy", CultureInfo.InvariantCulture);
         }
 
-        public static decimal GetRandomDecimal(Random rng)
+        protected static decimal GetRandomDecimal(Random rng)
         {
             byte scale = (byte)rng.Next(29);
             bool sign = rng.Next(2) == 1;
@@ -64,7 +88,7 @@ namespace TestRunnerBase
                 scale);
         }
 
-        public static int GetRandomRandInt(Random rng)
+        protected static int GetRandomRandInt(Random rng)
         {
             int firstBits = rng.Next(0, 1 << 4) << 28;
             int lastBits = rng.Next(0, 1 << 28);

@@ -1,21 +1,39 @@
 ﻿using IronXL;
 using IronXL.Styles;
-using System.Diagnostics;
 
 namespace CurrentIronXL
 {
     public class TestRunner : TestRunnerBase.TestRunner
     {
-        public override string TestRunnerName => typeof(TestRunner).Namespace ?? "CurrentIronXL";
-
-        public override TimeSpan RunRandomCellsTest(bool savingResultingFile)
+        protected override string TestRunnerName => typeof(TestRunner).Namespace ?? "CurrentIronXL";
+        protected override void RandomCellsTest(bool savingResultingFile)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
+            DoTestWork(CreateRandomCells, savingResultingFile);
+        }
+        protected override void DateCellsTest(bool savingResultingFile)
+        {
+            DoTestWork(CreateDateCells, savingResultingFile);
+        }
+        protected override void StyleChangesTest(bool savingResultingFile)
+        {
+            DoTestWork(MakeStyleChanges, savingResultingFile);
+        }
 
-            var workbook = WorkBook.Create(ExcelFileFormat.XLSX);
-            var worksheet = workbook.DefaultWorkSheet;
+        private void DoTestWork(Action<WorkSheet> methodName, bool savingResultingFile)
+        {
+            var workbook = new WorkBook();
+            var cells = workbook.DefaultWorkSheet;
 
+            methodName(cells);
+
+            if (savingResultingFile)
+            {
+                workbook.SaveAs(StyleChangeFileName);
+            }
+        }
+
+        private static void CreateRandomCells(WorkSheet worksheet)
+        {
             var rand = new Random();
             for (int i = 1; i <= RandomCellsRowNumber; i++)
             {
@@ -36,46 +54,18 @@ namespace CurrentIronXL
                 worksheet["O" + i].Value = GetRandomDecimal(rand);
                 worksheet["P" + i].Value = GetRandomDecimal(rand);
             }
-
-            if (savingResultingFile)
-            {
-                workbook.SaveAs(RandomCellsFileName);
-            }
-
-            stopwatch.Stop();
-            return stopwatch.Elapsed;
         }
 
-        public override TimeSpan RunDateCellsTest(bool savingResultingFile)
+        private static void CreateDateCells(WorkSheet worksheet)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            var workbook = WorkBook.Create(ExcelFileFormat.XLSX);
-            var worksheet = workbook.DefaultWorkSheet;
-
             for (int i = 1; i < DateCellsNumber; i++)
             {
                 worksheet["A" + i].Value = DateTime.Now;
             }
-
-            if (savingResultingFile)
-            {
-                workbook.SaveAs(DateCellsFileName);
-            }
-
-            stopwatch.Stop();
-            return stopwatch.Elapsed;
         }
 
-        public override TimeSpan RunStyleChangesTest(bool savingResultingFile)
+        private static void MakeStyleChanges(WorkSheet worksheet)
         {
-            var stopwatch = new Stopwatch();
-            stopwatch.Start();
-
-            var workbook = WorkBook.Create(ExcelFileFormat.XLSX);
-            var worksheet = workbook.DefaultWorkSheet;
-
             worksheet.InsertRows(1, StyleChangeRowNumber);
 
             var range = worksheet.GetRange($"A1:O{StyleChangeRowNumber}");
@@ -86,14 +76,6 @@ namespace CurrentIronXL
             style.Font.Height = 22;
             style.VerticalAlignment = VerticalAlignment.Top;
             style.HorizontalAlignment = HorizontalAlignment.Right;
-
-            if (savingResultingFile)
-            {
-                workbook.SaveAs(StyleChangeFileName);
-            }
-
-            stopwatch.Stop();
-            return stopwatch.Elapsed;
         }
     }
 }
