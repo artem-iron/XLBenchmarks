@@ -12,4 +12,14 @@ public interface IAppConfig
     public string? ChartTitle { get; set; }
 
     public string[] TestList { get; set; }
+    int DateCellsNumber { get; set; }
+    int RandomCellsRowNumber { get; set; }
+    int StyleChangeRowNumber { get; }
+    string ResultsFolderName { get; set; }
+    string RandomCellsFileNameTemplate { get; set; }
+    string DateCellsFileNameTemplate { get; set; }
+    string StyleChangeFileNameTemplate { get; set; }
+    string LoadingLargeFileFileNameTemplate { get; set; }
+    string CellValue { get; set; }
+    string LargeFileName { get; set; }
 }

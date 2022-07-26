@@ -28,12 +28,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Aspose\Aspose.csproj" />
-      <ProjectReference Include="..\CurrentIronXL\CurrentIronXL.csproj" />
-      <ProjectReference Include="..\PreviousIronXL\PreviousIronXL.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
       <Reference Include="IronXLOld">
         <HintPath>..\packages\IronXLOld.dll</HintPath>
       </Reference>

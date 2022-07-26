@@ -3,6 +3,7 @@ using IronXL.Drawing.Charts;
 using IronXL.Formatting;
 using System.Reflection;
 using XLReporting.Configuration;
+using XLReporting.TestRunners;
 
 namespace XLReporting.Reporting;
 
@@ -20,7 +21,7 @@ public class ReportGenerator : IReportGenerator
     public string GenerateReport()
     {
         CreateReportsFolder();
-        
+
         var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         if (path == null)
@@ -89,11 +90,11 @@ public class ReportGenerator : IReportGenerator
 
             FillRow(sheet, i, contender, times);
         }
-        
+
         UpdateChart(sheet);
     }
-    
-    private void CreateReportsFolder ()
+
+    private void CreateReportsFolder()
     {
         var path = Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
@@ -124,19 +125,19 @@ public class ReportGenerator : IReportGenerator
         }
     }
 
-    private static TimeSpan[] GetAsposeTestData()
+    private TimeSpan[] GetAsposeTestData()
     {
-        return new Aspose.TestRunner().RunTests();
+        return new AsposeTestRunner(_appConfig).RunTests();
     }
 
-    private static TimeSpan[] GetPreviousIronXLTestData()
+    private TimeSpan[] GetPreviousIronXLTestData()
     {
-        return new PreviousIronXL.TestRunner().RunTests();
+        return new PreviousIronXLTestRunner(_appConfig).RunTests();
     }
 
-    private static TimeSpan[] GetCurrentIronXLTestData()
+    private TimeSpan[] GetCurrentIronXLTestData()
     {
-        return new CurrentIronXL.TestRunner().RunTests();
+        return new CurrentIronXLTestRunner(_appConfig).RunTests();
     }
 
     private void FillRow(WorkSheet sheet, int i, string contender, TimeSpan[] times)
