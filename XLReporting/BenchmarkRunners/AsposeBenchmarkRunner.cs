@@ -2,33 +2,33 @@
 using Aspose.Cells;
 using XLReporting.Configuration;
 
-namespace XLReporting.TestRunners
+namespace XLReporting.BenchmarkRunners
 {
-    internal class AsposeTestRunner : TestRunner<Cells>
+    internal class AsposeBenchmarkRunner : BenchmarkRunner<Cells>
     {
-        public AsposeTestRunner(IAppConfig appConfig) : base(appConfig)
+        public AsposeBenchmarkRunner(IAppConfig appConfig) : base(appConfig)
         {
         }
 
-        protected override string TestRunnerName => typeof(AsposeTestRunner).Name.Replace("TestRunner", "") ?? "Aspose";
-        protected override void DoTestWork(Action<Cells> testWork, string fileName, bool savingResultingFile)
+        protected override string BenchmarkRunnerName => typeof(AsposeBenchmarkRunner).Name.Replace("BenchmarkRunner", "") ?? "Aspose";
+        protected override void PerformBenchmarkWork(Action<Cells> benchmarkWork, string fileName, bool savingResultingFile)
         {
             var workbook = new Workbook();
             var cells = workbook.Worksheets[0].Cells;
 
-            testWork(cells);
+            benchmarkWork(cells);
 
             if (savingResultingFile)
             {
                 workbook.Save(fileName);
             }
         }
-        protected override void LoadingBigFileTest(bool savingResultingFile)
+        protected override void LoadingBigFileBenchmark(bool savingResultingFile)
         {
             var workbook = new Workbook(_largeFileName);
             if (savingResultingFile)
             {
-                workbook.Save(LoadingBigFileName);
+                workbook.Save(LoadingLargeFileName);
             }
         }
         protected override void CreateRandomCells(Cells cells)

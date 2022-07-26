@@ -11,7 +11,7 @@ public class AppConfig : IAppConfig
     public int TimeTableStartingRow { get; set; } = 27;
 
     public string? ChartTitle { get; set; }
-    public string[]? TestList { get; set; }
+    public string[]? BenchmarkList { get; set; }
 
     public int DateCellsNumber { get; set; } = 80000;
     public int RandomCellsRowNumber { get; set; } = 20000;

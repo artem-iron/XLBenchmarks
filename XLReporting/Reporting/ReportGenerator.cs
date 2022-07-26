@@ -3,7 +3,7 @@ using IronXL.Drawing.Charts;
 using IronXL.Formatting;
 using System.Reflection;
 using XLReporting.Configuration;
-using XLReporting.TestRunners;
+using XLReporting.BenchmarkRunners;
 
 namespace XLReporting.Reporting;
 
@@ -71,9 +71,9 @@ public class ReportGenerator : IReportGenerator
     {
         Dictionary<string, TimeSpan[]> timeTableData = new()
         {
-            { "Current IronXL", GetCurrentIronXLTestData() },
-            { "Previous IronXL", GetPreviousIronXLTestData() },
-            { "Aspose", GetAsposeTestData() },
+            { "Current IronXL", GetCurrentIronXLBenchmarkData() },
+            { "Previous IronXL", GetPreviousIronXLBenchmarkData() },
+            { "Aspose", GetAsposeBenchmarkData() },
         };
 
         var sheet = report.DefaultWorkSheet;
@@ -113,31 +113,31 @@ public class ReportGenerator : IReportGenerator
 
     private void FillHeader(WorkSheet sheet, string headerRowAddress)
     {
-        string[] testList = _appConfig.TestList;
+        string[] benchmarkList = _appConfig.BenchmarkList;
 
         var i = 0;
 
         foreach (var cell in sheet[headerRowAddress])
         {
-            cell.Value = testList[i];
+            cell.Value = benchmarkList[i];
 
             i++;
         }
     }
 
-    private TimeSpan[] GetAsposeTestData()
+    private TimeSpan[] GetAsposeBenchmarkData()
     {
-        return new AsposeTestRunner(_appConfig).RunTests();
+        return new AsposeBenchmarkRunner(_appConfig).RunBenchmarks();
     }
 
-    private TimeSpan[] GetPreviousIronXLTestData()
+    private TimeSpan[] GetPreviousIronXLBenchmarkData()
     {
-        return new PreviousIronXLTestRunner(_appConfig).RunTests();
+        return new PreviousIronXLBenchmarkRunner(_appConfig).RunBenchmarks();
     }
 
-    private TimeSpan[] GetCurrentIronXLTestData()
+    private TimeSpan[] GetCurrentIronXLBenchmarkData()
     {
-        return new CurrentIronXLTestRunner(_appConfig).RunTests();
+        return new CurrentIronXLBenchmarkRunner(_appConfig).RunBenchmarks();
     }
 
     private void FillRow(WorkSheet sheet, int i, string contender, TimeSpan[] times)
@@ -217,7 +217,7 @@ public class ReportGenerator : IReportGenerator
     {
         foreach (var cell in sheet[headerRowAddress])
         {
-            cell.Value = $"Mock_Test_{cell.ColumnIndex}";
+            cell.Value = $"Mock_Benchmark_{cell.ColumnIndex}";
         }
     }
 

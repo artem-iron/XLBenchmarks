@@ -1,34 +1,34 @@
-﻿using IronXL;
-using IronXL.Styles;
+﻿using IronXLOld;
+using IronXLOld.Styles;
 using XLReporting.Configuration;
 
-namespace XLReporting.TestRunners
+namespace XLReporting.BenchmarkRunners
 {
-    internal class CurrentIronXLTestRunner : TestRunner<WorkSheet>
+    internal class PreviousIronXLBenchmarkRunner : BenchmarkRunner<WorkSheet>
     {
-        public CurrentIronXLTestRunner(IAppConfig appConfig) : base(appConfig)
+        public PreviousIronXLBenchmarkRunner(IAppConfig appConfig) : base(appConfig)
         {
         }
 
-        protected override string TestRunnerName => typeof(CurrentIronXLTestRunner).Name.Replace("TestRunner", "") ?? "CurrentIronXL";
-        protected override void DoTestWork(Action<WorkSheet> testWork, string fileName, bool savingResultingFile)
+        protected override string BenchmarkRunnerName => typeof(PreviousIronXLBenchmarkRunner).Name.Replace("BenchmarkRunner", "") ?? "PreviousIronXL";
+        protected override void PerformBenchmarkWork(Action<WorkSheet> benchmarkWork, string fileName, bool savingResultingFile)
         {
             var workbook = new WorkBook();
             var cells = workbook.DefaultWorkSheet;
 
-            testWork(cells);
+            benchmarkWork(cells);
 
             if (savingResultingFile)
             {
                 workbook.SaveAs(fileName);
             }
         }
-        protected override void LoadingBigFileTest(bool savingResultingFile)
+        protected override void LoadingBigFileBenchmark(bool savingResultingFile)
         {
             var workbook = WorkBook.Load(_largeFileName);
             if (savingResultingFile)
             {
-                workbook.SaveAs(LoadingBigFileName);
+                workbook.SaveAs(LoadingLargeFileName);
             }
         }
         protected override void CreateRandomCells(WorkSheet worksheet)
@@ -65,7 +65,7 @@ namespace XLReporting.TestRunners
         {
             worksheet.InsertRows(1, StyleChangeRowNumber);
 
-            var range = worksheet.GetRange($"A1:O{StyleChangeRowNumber}");
+            var range = worksheet.GetRange($"A1:A{StyleChangeRowNumber}");
             range.Value = _cellValue;
 
             var style = range.Style;

@@ -9,17 +9,19 @@ public interface IAppConfig
     public int ChartHeight { get; set; }
     public int ContendersNumber { get; set; }
     public int TimeTableStartingRow { get; set; }
+    
     public string? ChartTitle { get; set; }
+    public string[]? BenchmarkList { get; set; }
 
-    public string[] TestList { get; set; }
-    int DateCellsNumber { get; set; }
-    int RandomCellsRowNumber { get; set; }
-    int StyleChangeRowNumber { get; set; }
-    string ResultsFolderName { get; set; }
-    string RandomCellsFileNameTemplate { get; set; }
-    string DateCellsFileNameTemplate { get; set; }
-    string StyleChangeFileNameTemplate { get; set; }
-    string LoadingLargeFileFileNameTemplate { get; set; }
-    string CellValue { get; set; }
-    string LargeFileName { get; set; }
+    public int DateCellsNumber { get; set; }
+    public int RandomCellsRowNumber { get; set; }
+    public int StyleChangeRowNumber { get; set; }
+    
+    public string ResultsFolderName { get; set; }
+    public string RandomCellsFileNameTemplate { get; set; }
+    public string DateCellsFileNameTemplate { get; set; }
+    public string StyleChangeFileNameTemplate { get; set; }
+    public string LoadingLargeFileFileNameTemplate { get; set; }
+    public string CellValue { get; set; }
+    public string LargeFileName { get; set; }
 }

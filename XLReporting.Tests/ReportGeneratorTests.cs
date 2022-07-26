@@ -1,5 +1,3 @@
-using Moq;
-using XLReporting.Configuration;
 using XLReporting.Reporting;
 
 namespace XLReporting.Tests;
@@ -47,6 +45,6 @@ public class ReportGeneratorTests : TestsBase
         _reportGenerator.FillReport(report);
 
         Assert.IsFalse(report.DefaultWorkSheet.FilledCells.Any(c => c.StringValue.Contains("Contender_")));
-        Assert.IsFalse(report.DefaultWorkSheet.FilledCells.Any(c => c.StringValue.Contains("Mock_Test_")));
+        Assert.IsFalse(report.DefaultWorkSheet.FilledCells.Any(c => c.StringValue.Contains("Mock_Benchmark_")));
     }
 }

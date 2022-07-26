@@ -2,9 +2,9 @@
 using System.Globalization;
 using XLReporting.Configuration;
 
-namespace XLReporting.TestRunners
+namespace XLReporting.BenchmarkRunners
 {
-    internal abstract class TestRunner<T>
+    internal abstract class BenchmarkRunner<T>
     {
         public int DateCellsNumber = 80000;
         public int RandomCellsRowNumber = 20000;
@@ -18,11 +18,11 @@ namespace XLReporting.TestRunners
         protected static string _cellValue = "Cell";
         protected static string _largeFileName = "LoadingTestFiles\\LoadingTest.xlsx";
 
-        protected string LoadingBigFileName => string.Format(CultureInfo.InvariantCulture, _loadingLargeFileFileNameTemplate, _resultsFolderName, TestRunnerName);
+        protected string LoadingLargeFileName => string.Format(CultureInfo.InvariantCulture, _loadingLargeFileFileNameTemplate, _resultsFolderName, BenchmarkRunnerName);
 
         protected readonly IAppConfig _appConfig;
 
-        public TestRunner(IAppConfig appConfig)
+        public BenchmarkRunner(IAppConfig appConfig)
         {
             _appConfig = appConfig;
 
@@ -39,75 +39,75 @@ namespace XLReporting.TestRunners
             _largeFileName = _appConfig.LargeFileName;
         }
 
-        public TimeSpan[] RunTests()
+        public TimeSpan[] RunBenchmarks()
         {
             CreateResultsFolder();
 
             var timeTable = new TimeSpan[10];
 
-            timeTable[0] = RunRandomCellsTest(false);
-            timeTable[1] = RunRandomCellsTest(true);
-            timeTable[2] = RunDateCellsTest(false);
-            timeTable[3] = RunDateCellsTest(true);
-            timeTable[4] = RunStyleChangesTest(false);
-            timeTable[5] = RunStyleChangesTest(true);
-            timeTable[6] = RunLoadingBigFileTest(false);
-            timeTable[7] = RunLoadingBigFileTest(true);
+            timeTable[0] = RunRandomCellsBenchmark(false);
+            timeTable[1] = RunRandomCellsBenchmark(true);
+            timeTable[2] = RunDateCellsBenchmark(false);
+            timeTable[3] = RunDateCellsBenchmark(true);
+            timeTable[4] = RunStyleChangesBenchmark(false);
+            timeTable[5] = RunStyleChangesBenchmark(true);
+            timeTable[6] = RunLoadingBigFileBenchmark(false);
+            timeTable[7] = RunLoadingBigFileBenchmark(true);
             timeTable[8] = GetTimeSpan();
             timeTable[9] = GetTimeSpan();
 
             return timeTable;
         }
 
-        private TimeSpan RunRandomCellsTest(bool savingResultingFile)
+        private TimeSpan RunRandomCellsBenchmark(bool savingResultingFile)
         {
-            return RunTest(RandomCellsTest, savingResultingFile);
+            return RunBenchmark(RandomCellsBenchmark, savingResultingFile);
         }
-        private TimeSpan RunDateCellsTest(bool savingResultingFile)
+        private TimeSpan RunDateCellsBenchmark(bool savingResultingFile)
         {
-            return RunTest(DateCellsTest, savingResultingFile);
+            return RunBenchmark(DateCellsBenchmark, savingResultingFile);
         }
-        private TimeSpan RunStyleChangesTest(bool savingResultingFile)
+        private TimeSpan RunStyleChangesBenchmark(bool savingResultingFile)
         {
-            return RunTest(StyleChangesTest, savingResultingFile);
+            return RunBenchmark(StyleChangesBenchmark, savingResultingFile);
         }
-        private TimeSpan RunLoadingBigFileTest(bool savingResultingFile)
+        private TimeSpan RunLoadingBigFileBenchmark(bool savingResultingFile)
         {
-            return RunTest(LoadingBigFileTest, savingResultingFile);
+            return RunBenchmark(LoadingBigFileBenchmark, savingResultingFile);
         }
-        private static TimeSpan RunTest(Action<bool> testName, bool savingResultingFile)
+        private static TimeSpan RunBenchmark(Action<bool> benchmarkName, bool savingResultingFile)
         {
             var stopwatch = new Stopwatch();
             stopwatch.Start();
 
-            testName(savingResultingFile);
+            benchmarkName(savingResultingFile);
 
             stopwatch.Stop();
             return stopwatch.Elapsed;
         }
 
-        private void RandomCellsTest(bool savingResultingFile)
+        private void RandomCellsBenchmark(bool savingResultingFile)
         {
-            var randomCellsFileName = string.Format(CultureInfo.InvariantCulture, _randomCellsFileNameTemplate, _resultsFolderName, TestRunnerName);
+            var randomCellsFileName = string.Format(CultureInfo.InvariantCulture, _randomCellsFileNameTemplate, _resultsFolderName, BenchmarkRunnerName);
             
-            DoTestWork(CreateRandomCells, randomCellsFileName, savingResultingFile);
+            PerformBenchmarkWork(CreateRandomCells, randomCellsFileName, savingResultingFile);
         }
-        private void DateCellsTest(bool savingResultingFile)
+        private void DateCellsBenchmark(bool savingResultingFile)
         {
-            var dateCellsFileName = string.Format(CultureInfo.InvariantCulture, _dateCellsFileNameTemplate, _resultsFolderName, TestRunnerName);
+            var dateCellsFileName = string.Format(CultureInfo.InvariantCulture, _dateCellsFileNameTemplate, _resultsFolderName, BenchmarkRunnerName);
             
-            DoTestWork(CreateDateCells, dateCellsFileName, savingResultingFile);
+            PerformBenchmarkWork(CreateDateCells, dateCellsFileName, savingResultingFile);
         }
-        private void StyleChangesTest(bool savingResultingFile)
+        private void StyleChangesBenchmark(bool savingResultingFile)
         {
-            var styleChangeFileName = string.Format(CultureInfo.InvariantCulture, _styleChangeFileNameTemplate, _resultsFolderName, TestRunnerName);
+            var styleChangeFileName = string.Format(CultureInfo.InvariantCulture, _styleChangeFileNameTemplate, _resultsFolderName, BenchmarkRunnerName);
             
-            DoTestWork(MakeStyleChanges, styleChangeFileName, savingResultingFile);
+            PerformBenchmarkWork(MakeStyleChanges, styleChangeFileName, savingResultingFile);
         }
 
-        protected abstract string TestRunnerName { get; }
-        protected abstract void DoTestWork(Action<T> testWork, string fileName, bool savingResultingFile);
-        protected abstract void LoadingBigFileTest(bool savingResultingFile);
+        protected abstract string BenchmarkRunnerName { get; }
+        protected abstract void PerformBenchmarkWork(Action<T> benchmarkWork, string fileName, bool savingResultingFile);
+        protected abstract void LoadingBigFileBenchmark(bool savingResultingFile);
         protected abstract void CreateRandomCells(T worksheet);
         protected abstract void CreateDateCells(T worksheet);
         protected abstract void MakeStyleChanges(T worksheet);
