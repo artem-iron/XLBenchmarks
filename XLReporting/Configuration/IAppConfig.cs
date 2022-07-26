@@ -14,7 +14,7 @@ public interface IAppConfig
     public string[] TestList { get; set; }
     int DateCellsNumber { get; set; }
     int RandomCellsRowNumber { get; set; }
-    int StyleChangeRowNumber { get; }
+    int StyleChangeRowNumber { get; set; }
     string ResultsFolderName { get; set; }
     string RandomCellsFileNameTemplate { get; set; }
     string DateCellsFileNameTemplate { get; set; }

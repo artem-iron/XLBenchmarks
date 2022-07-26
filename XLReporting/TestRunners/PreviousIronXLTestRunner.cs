@@ -56,18 +56,16 @@ namespace XLReporting.TestRunners
         }
         protected override void CreateDateCells(WorkSheet worksheet)
         {
-            int dateCellsNumber = 60000;
-            for (int i = 1; i < dateCellsNumber; i++)
+            for (int i = 1; i < DateCellsNumber; i++)
             {
                 worksheet["A" + i].Value = DateTime.Now;
             }
         }
         protected override void MakeStyleChanges(WorkSheet worksheet)
         {
-            int styleChangeRowNumber = 50;
-            worksheet.InsertRows(1, styleChangeRowNumber);
+            worksheet.InsertRows(1, StyleChangeRowNumber);
 
-            var range = worksheet.GetRange($"A1:A{styleChangeRowNumber}");
+            var range = worksheet.GetRange($"A1:A{StyleChangeRowNumber}");
             range.Value = _cellValue;
 
             var style = range.Style;

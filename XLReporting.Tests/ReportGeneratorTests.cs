@@ -8,24 +8,10 @@ namespace XLReporting.Tests;
 public class ReportGeneratorTests : TestsBase
 {
     private readonly ReportGenerator _reportGenerator;
-    private readonly Mock<IAppConfig> _appConfig;
 
     public ReportGeneratorTests() : base()
     {
-        _appConfig = new Mock<IAppConfig>();
-        _appConfig.SetupAllProperties();
-        _appConfig.Object.ChartTitle = "Chart Title";
-        _appConfig.Object.ChartHeight = 24;
-        _appConfig.Object.ChartWidth = 11;
-        _appConfig.Object.ContendersNumber = 3;
-        _appConfig.Object.TimeTableStartingRow = 27;
-        _appConfig.Object.TestList = new string[] {
-            "Test1", "Test2", "Test3", "Test4",
-            "Test5", "Test6", "Test7", "Test8",
-            "Test9", "Test10"
-        };
-
-        _reportGenerator = new ReportGenerator(_appConfig.Object);
+        _reportGenerator = new ReportGenerator(_appConfig);
     }
 
     [TestMethod]

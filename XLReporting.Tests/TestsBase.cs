@@ -1,10 +1,15 @@
 ﻿using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using XLReporting.Configuration;
 
 namespace XLReporting.Tests;
 
 public abstract class TestsBase
 {
+    protected readonly IAppConfig _appConfig;
+    
     protected TestsBase()
     {
         var builder = new ConfigurationBuilder()
@@ -14,8 +19,18 @@ public abstract class TestsBase
 
         var configurationRoot = builder.Build();
 
-        IronXL.License.LicenseKey = configurationRoot.GetSection("LicenseKey").Value;
-        IronXLOld.License.LicenseKey = configurationRoot.GetSection("LicenseKey").Value;
+        var host = Host.CreateDefaultBuilder()
+            .ConfigureServices((context, services) =>
+            {
+                services.AddSingleton<IAppConfig, AppConfig>(
+                    _ => configurationRoot.GetSection(nameof(AppConfig)).Get<AppConfig>());
+            })
+            .Build();
+
+        _appConfig = ActivatorUtilities.GetServiceOrCreateInstance<IAppConfig>(host.Services);
+
+        IronXL.License.LicenseKey = _appConfig.LicenseKey;
+        IronXLOld.License.LicenseKey = _appConfig.LicenseKey;
 
         Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
     }
