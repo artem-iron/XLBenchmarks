@@ -28,8 +28,7 @@ var host = Host.CreateDefaultBuilder()
     .UseSerilog()
     .Build();
 
-var appConfig = ActivatorUtilities.GetServiceOrCreateInstance<IAppConfig>(host.Services);
-License.LicenseKey = appConfig.LicenseKey;
+License.LicenseKey = ActivatorUtilities.GetServiceOrCreateInstance<IAppConfig>(host.Services).LicenseKey;
 
 var reportGenerator = ActivatorUtilities.CreateInstance<ReportGenerator>(host.Services);
 reportGenerator.GenerateReport();

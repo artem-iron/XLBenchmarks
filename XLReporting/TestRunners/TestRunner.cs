@@ -18,11 +18,7 @@ namespace XLReporting.TestRunners
         protected static string _cellValue = "Cell";
         protected static string _largeFileName = "LoadingTestFiles\\LoadingTest.xlsx";
 
-        protected string RandomCellsFileName => string.Format(CultureInfo.InvariantCulture, _randomCellsFileNameTemplate, _resultsFolderName, TestRunnerName);
-        protected string DateCellsFileName => string.Format(CultureInfo.InvariantCulture, _dateCellsFileNameTemplate, _resultsFolderName, TestRunnerName);
-        protected string StyleChangeFileName => string.Format(CultureInfo.InvariantCulture, _styleChangeFileNameTemplate, _resultsFolderName, TestRunnerName);
         protected string LoadingBigFileName => string.Format(CultureInfo.InvariantCulture, _loadingLargeFileFileNameTemplate, _resultsFolderName, TestRunnerName);
-
 
         protected readonly IAppConfig _appConfig;
 
@@ -79,18 +75,6 @@ namespace XLReporting.TestRunners
         {
             return RunTest(LoadingBigFileTest, savingResultingFile);
         }
-        private void RandomCellsTest(bool savingResultingFile)
-        {
-            DoTestWork(CreateRandomCells, RandomCellsFileName, savingResultingFile);
-        }
-        private void DateCellsTest(bool savingResultingFile)
-        {
-            DoTestWork(CreateDateCells, DateCellsFileName, savingResultingFile);
-        }
-        private void StyleChangesTest(bool savingResultingFile)
-        {
-            DoTestWork(MakeStyleChanges, StyleChangeFileName, savingResultingFile);
-        }
         private static TimeSpan RunTest(Action<bool> testName, bool savingResultingFile)
         {
             var stopwatch = new Stopwatch();
@@ -100,6 +84,25 @@ namespace XLReporting.TestRunners
 
             stopwatch.Stop();
             return stopwatch.Elapsed;
+        }
+
+        private void RandomCellsTest(bool savingResultingFile)
+        {
+            var randomCellsFileName = string.Format(CultureInfo.InvariantCulture, _randomCellsFileNameTemplate, _resultsFolderName, TestRunnerName);
+            
+            DoTestWork(CreateRandomCells, randomCellsFileName, savingResultingFile);
+        }
+        private void DateCellsTest(bool savingResultingFile)
+        {
+            var dateCellsFileName = string.Format(CultureInfo.InvariantCulture, _dateCellsFileNameTemplate, _resultsFolderName, TestRunnerName);
+            
+            DoTestWork(CreateDateCells, dateCellsFileName, savingResultingFile);
+        }
+        private void StyleChangesTest(bool savingResultingFile)
+        {
+            var styleChangeFileName = string.Format(CultureInfo.InvariantCulture, _styleChangeFileNameTemplate, _resultsFolderName, TestRunnerName);
+            
+            DoTestWork(MakeStyleChanges, styleChangeFileName, savingResultingFile);
         }
 
         protected abstract string TestRunnerName { get; }
