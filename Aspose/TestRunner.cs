@@ -1,21 +1,22 @@
-﻿using Aspose.Cells;
+﻿
+using Aspose.Cells;
 
 namespace Aspose
 {
-    public class TestRunner : TestRunnerBase.TestRunner
+    public class TestRunner : TestRunnerBase.TestRunner<Cells.Cells>
     {
         protected override string TestRunnerName => typeof(TestRunner).Namespace ?? "Aspose";
-        protected override void RandomCellsTest(bool savingResultingFile)
+        protected override void DoTestWork(Action<Cells.Cells> testWork, string fileName, bool savingResultingFile)
         {
-            DoTestWork(CreateRandomCells, RandomCellsFileName, savingResultingFile);
-        }
-        protected override void DateCellsTest(bool savingResultingFile)
-        {
-            DoTestWork(CreateDateCells, DateCellsFileName, savingResultingFile);
-        }
-        protected override void StyleChangesTest(bool savingResultingFile)
-        {
-            DoTestWork(MakeStyleChanges, StyleChangeFileName, savingResultingFile);
+            var workbook = new Workbook();
+            var cells = workbook.Worksheets[0].Cells;
+
+            testWork(cells);
+
+            if (savingResultingFile)
+            {
+                workbook.Save(fileName);
+            }
         }
         protected override void LoadingBigFileTest(bool savingResultingFile)
         {
@@ -25,21 +26,7 @@ namespace Aspose
                 workbook.Save(LoadingBigFileName);
             }
         }
-
-        private static void DoTestWork(Action<Cells.Cells> methodName, string fileName, bool savingResultingFile)
-        {
-            var workbook = new Workbook();
-            var cells = workbook.Worksheets[0].Cells;
-
-            methodName(cells);
-
-            if (savingResultingFile)
-            {
-                workbook.Save(fileName);
-            }
-        }
-
-        private static void CreateRandomCells(Cells.Cells cells)
+        protected override void CreateRandomCells(Cells.Cells cells)
         {
             var rand = new Random();
             for (int i = 1; i <= RandomCellsRowNumber; i++)
@@ -62,16 +49,14 @@ namespace Aspose
                 cells["P" + i].Value = GetRandomDecimal(rand);
             }
         }
-
-        private static void CreateDateCells(Cells.Cells cells)
+        protected override void CreateDateCells(Cells.Cells cells)
         {
             for (int i = 1; i < DateCellsNumber; i++)
             {
                 cells["A" + i].Value = DateTime.Now;
             }
         }
-
-        private static void MakeStyleChanges(Cells.Cells cells)
+        protected override void MakeStyleChanges(Cells.Cells cells)
         {
             cells.InsertRows(1, StyleChangeRowNumber);
 

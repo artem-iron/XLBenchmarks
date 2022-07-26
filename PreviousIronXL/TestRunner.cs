@@ -3,20 +3,20 @@ using IronXLOld.Styles;
 
 namespace PreviousIronXL
 {
-    public class TestRunner : TestRunnerBase.TestRunner
+    public class TestRunner : TestRunnerBase.TestRunner<WorkSheet>
     {
         protected override string TestRunnerName => typeof(TestRunner).Namespace ?? "PreviousIronXL";
-        protected override void RandomCellsTest(bool savingResultingFile)
+        protected override void DoTestWork(Action<WorkSheet> testWork, string fileName, bool savingResultingFile)
         {
-            DoTestWork(CreateRandomCells, RandomCellsFileName, savingResultingFile);
-        }
-        protected override void DateCellsTest(bool savingResultingFile)
-        {
-            DoTestWork(CreateDateCells, DateCellsFileName, savingResultingFile);
-        }
-        protected override void StyleChangesTest(bool savingResultingFile)
-        {
-            DoTestWork(MakeStyleChanges, StyleChangeFileName, savingResultingFile);
+            var workbook = new WorkBook();
+            var cells = workbook.DefaultWorkSheet;
+
+            testWork(cells);
+
+            if (savingResultingFile)
+            {
+                workbook.SaveAs(fileName);
+            }
         }
         protected override void LoadingBigFileTest(bool savingResultingFile)
         {
@@ -26,21 +26,7 @@ namespace PreviousIronXL
                 workbook.SaveAs(LoadingBigFileName);
             }
         }
-
-        private static void DoTestWork(Action<WorkSheet> methodName, string fileName, bool savingResultingFile)
-        {
-            var workbook = new WorkBook();
-            var cells = workbook.DefaultWorkSheet;
-
-            methodName(cells);
-
-            if (savingResultingFile)
-            {
-                workbook.SaveAs(fileName);
-            }
-        }
-
-        private static void CreateRandomCells(WorkSheet worksheet)
+        protected override void CreateRandomCells(WorkSheet worksheet)
         {
             var rand = new Random();
             for (int i = 1; i <= RandomCellsRowNumber; i++)
@@ -63,8 +49,7 @@ namespace PreviousIronXL
                 worksheet["P" + i].Value = GetRandomDecimal(rand);
             }
         }
-
-        private static void CreateDateCells(WorkSheet worksheet)
+        protected override void CreateDateCells(WorkSheet worksheet)
         {
             int dateCellsNumber = 60000;
             for (int i = 1; i < dateCellsNumber; i++)
@@ -72,8 +57,7 @@ namespace PreviousIronXL
                 worksheet["A" + i].Value = DateTime.Now;
             }
         }
-
-        private static void MakeStyleChanges(WorkSheet worksheet)
+        protected override void MakeStyleChanges(WorkSheet worksheet)
         {
             int styleChangeRowNumber = 50;
             worksheet.InsertRows(1, styleChangeRowNumber);

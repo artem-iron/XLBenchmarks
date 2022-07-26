@@ -3,7 +3,7 @@ using System.Globalization;
 
 namespace TestRunnerBase
 {
-    public abstract class TestRunner
+    public abstract class TestRunner<T>
     {
         protected static readonly int DateCellsNumber = 80000;
         protected static readonly int RandomCellsRowNumber = 20000;
@@ -58,6 +58,18 @@ namespace TestRunnerBase
         {
             return RunTest(LoadingBigFileTest, savingResultingFile);
         }
+        private void RandomCellsTest(bool savingResultingFile)
+        {
+            DoTestWork(CreateRandomCells, RandomCellsFileName, savingResultingFile);
+        }
+        private void DateCellsTest(bool savingResultingFile)
+        {
+            DoTestWork(CreateDateCells, DateCellsFileName, savingResultingFile);
+        }
+        private void StyleChangesTest(bool savingResultingFile)
+        {
+            DoTestWork(MakeStyleChanges, StyleChangeFileName, savingResultingFile);
+        }
         private static TimeSpan RunTest(Action<bool> testName, bool savingResultingFile)
         {
             var stopwatch = new Stopwatch();
@@ -70,11 +82,11 @@ namespace TestRunnerBase
         }
         
         protected abstract string TestRunnerName { get; }
-        protected abstract void RandomCellsTest(bool savingResultingFile);
-        protected abstract void DateCellsTest(bool savingResultingFile);
-        protected abstract void StyleChangesTest(bool savingResultingFile);
+        protected abstract void DoTestWork(Action<T> testWork, string fileName, bool savingResultingFile);
         protected abstract void LoadingBigFileTest(bool savingResultingFile);
-
+        protected abstract void CreateRandomCells(T worksheet);
+        protected abstract void CreateDateCells(T worksheet);
+        protected abstract void MakeStyleChanges(T worksheet);
 
         protected static TimeSpan GetTimeSpan()
         {
