@@ -56,25 +56,29 @@ namespace XLReporting.BenchmarkRunners
         }
         protected override void CreateDateCells(Cells cells)
         {
+            var style = new CellsFactory().CreateStyle();
+            style.Number = 15;
+
             for (int i = 1; i < DateCellsNumber; i++)
             {
-                cells["A" + i].Value = DateTime.Now;
+                var cell = cells["A" + i];
+                cell.PutValue(DateTime.Now);
+                cell.SetStyle(style);
             }
         }
         protected override void MakeStyleChanges(Cells cells)
         {
+            var style = new CellsFactory().CreateStyle();
+            style.Font.Size = 22;
+            style.VerticalAlignment = TextAlignmentType.Top;
+            style.HorizontalAlignment = TextAlignmentType.Right;
+            
             cells.InsertRows(1, StyleChangeRowNumber);
 
             var range = cells.CreateRange($"A1:O{StyleChangeRowNumber}");
             range.Value = _cellValue;
 
-            var style = new CellsFactory().CreateStyle();
-
-            style.Font.Size = 22;
-            style.VerticalAlignment = TextAlignmentType.Top;
-            style.HorizontalAlignment = TextAlignmentType.Right;
-
-            range.ApplyStyle(style, new StyleFlag() { Font = true, VerticalAlignment = true, HorizontalAlignment = true });
+            range.SetStyle(style);
         }
     }
 }

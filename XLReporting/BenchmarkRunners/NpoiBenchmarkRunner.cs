@@ -34,55 +34,56 @@ namespace XLReporting.BenchmarkRunners
         protected override void CreateRandomCells(ISheet worksheet)
         {
             var rand = new Random();
-            for (int i = 1; i <= RandomCellsRowNumber; i++)
+            for (int i = 0; i <= RandomCellsRowNumber; i++)
             {
-                worksheet.CreateRow(i).CreateCell(0).SetCellValue($"=\"{Guid.NewGuid()}\"");
-                worksheet.CreateRow(i).CreateCell(1).SetCellValue($"=\"{Guid.NewGuid()}\"");
-                worksheet.CreateRow(i).CreateCell(2).SetCellValue(Guid.NewGuid().ToString());
-                worksheet.CreateRow(i).CreateCell(3).SetCellValue(rand.Next(32));
-                worksheet.CreateRow(i).CreateCell(4).SetCellValue($"=\"{Guid.NewGuid()}\"");
-                worksheet.CreateRow(i).CreateCell(5).SetCellValue($"=\"{Guid.NewGuid()}\"");
-                worksheet.CreateRow(i).CreateCell(6).SetCellValue(Guid.NewGuid().ToString());
-                worksheet.CreateRow(i).CreateCell(7).SetCellValue(rand.Next(13));
-                worksheet.CreateRow(i).CreateCell(8).SetCellValue(GetRandomDate(rand));
-                worksheet.CreateRow(i).CreateCell(9).SetCellValue(GetRandomDate(rand));
-                worksheet.CreateRow(i).CreateCell(10).SetCellValue(Guid.NewGuid().ToString());
-                worksheet.CreateRow(i).CreateCell(11).SetCellValue($"=\"{Guid.NewGuid()}\"");
-                worksheet.CreateRow(i).CreateCell(12).SetCellValue(Guid.NewGuid().ToString());
-                worksheet.CreateRow(i).CreateCell(13).SetCellValue(Guid.NewGuid().ToString());
-                worksheet.CreateRow(i).CreateCell(14).SetCellValue((double)GetRandomDecimal(rand));
-                worksheet.CreateRow(i).CreateCell(15).SetCellValue((double)GetRandomDecimal(rand));
+                var row = worksheet.CreateRow(i);
+                row.CreateCell(0).SetCellValue($"=\"{Guid.NewGuid()}\"");
+                row.CreateCell(1).SetCellValue($"=\"{Guid.NewGuid()}\"");
+                row.CreateCell(2).SetCellValue(Guid.NewGuid().ToString());
+                row.CreateCell(3).SetCellValue(rand.Next(32));
+                row.CreateCell(4).SetCellValue($"=\"{Guid.NewGuid()}\"");
+                row.CreateCell(5).SetCellValue($"=\"{Guid.NewGuid()}\"");
+                row.CreateCell(6).SetCellValue(Guid.NewGuid().ToString());
+                row.CreateCell(7).SetCellValue(rand.Next(13));
+                row.CreateCell(8).SetCellValue(GetRandomDate(rand));
+                row.CreateCell(9).SetCellValue(GetRandomDate(rand));
+                row.CreateCell(10).SetCellValue(Guid.NewGuid().ToString());
+                row.CreateCell(11).SetCellValue($"=\"{Guid.NewGuid()}\"");
+                row.CreateCell(12).SetCellValue(Guid.NewGuid().ToString());
+                row.CreateCell(13).SetCellValue(Guid.NewGuid().ToString());
+                row.CreateCell(14).SetCellValue((double)GetRandomDecimal(rand));
+                row.CreateCell(15).SetCellValue((double)GetRandomDecimal(rand));
             }
         }
         protected override void CreateDateCells(ISheet worksheet)
         {
-            for (int i = 1; i < DateCellsNumber; i++)
+            var style = worksheet.Workbook.CreateCellStyle();
+            style.DataFormat = worksheet.Workbook.CreateDataFormat().GetFormat("dd/MM/yyyy");
+
+            for (int i = 0; i < DateCellsNumber; i++)
             {
-                worksheet.CreateRow(i).CreateCell(1).SetCellValue(DateTime.Now);
+                var cell = worksheet.CreateRow(i).CreateCell(0);
+                cell.SetCellValue(DateTime.Now);
+                cell.CellStyle = style;
             }
         }
         protected override void MakeStyleChanges(ISheet worksheet)
         {
-            ICellStyle? style = null;
-            for (int i = 1; i <= StyleChangeRowNumber; i++)
+            var font = worksheet.Workbook.CreateFont();
+            font.FontHeightInPoints = 22;
+            
+            var style = worksheet.Workbook.CreateCellStyle();
+            style.SetFont(font);
+            style.VerticalAlignment = VerticalAlignment.Top;
+            style.Alignment = HorizontalAlignment.Right;
+            
+            for (int i = 0; i < StyleChangeRowNumber; i++)
             {
                 var row = worksheet.CreateRow(i);
                 for (int j = 0; j < 15; j++)
                 {
                     var cell = row.CreateCell(j);
                     cell.SetCellValue(_cellValue);
-
-                    if (j == 0)
-                    {
-                        style = cell.CellStyle;
-
-                        var font = style.GetFont(worksheet.Workbook);
-                        font.FontHeight = 22;
-                        style.SetFont(font);
-                        style.VerticalAlignment = VerticalAlignment.Top;
-                        style.Alignment = HorizontalAlignment.Right;
-                    }
-
                     cell.CellStyle = style;
                 }
             }
