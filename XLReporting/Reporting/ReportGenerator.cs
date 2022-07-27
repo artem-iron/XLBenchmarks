@@ -69,13 +69,7 @@ public class ReportGenerator : IReportGenerator
 
     public void FillReport(WorkBook report)
     {
-        Dictionary<string, TimeSpan[]> timeTableData = new()
-        {
-            { $"IronXL v.{GetCurrentIxlVersion()} (cur.)", GetCurrentIronXLBenchmarkData() },
-            { $"IronXL v.{GetPreviousIxlVersion()} (old)", GetPreviousIronXLBenchmarkData() },
-            { $"Aspose v.{GetAsposeVersion()}", GetAsposeBenchmarkData() },
-            { $"NPOI v. {GetNpoiVersion()}", GetNpoiBenchmarkData() },
-        };
+        Dictionary<string, TimeSpan[]> timeTableData = GetTimeTableData();
 
         _appConfig.ContendersNumber = timeTableData.Count;
 
@@ -97,33 +91,20 @@ public class ReportGenerator : IReportGenerator
         UpdateChart(sheet);
     }
 
-    private static string GetAssemblyVersion(Type type)
+    private Dictionary<string, TimeSpan[]> GetTimeTableData()
     {
-        var assembly = Assembly.GetAssembly(type);
-        var assemblyVersion = assembly == null ? null : assembly.GetName().Version;
-        var versionString = assemblyVersion == null ? "unknown" : assemblyVersion.ToString();
+        var asposeRunner = new AsposeBenchmarkRunner(_appConfig);
+        var previousIxlRunner = new PreviousIronXLBenchmarkRunner(_appConfig);
+        var currentIxlRunner = new CurrentIronXLBenchmarkRunner(_appConfig);
+        var npoiRunner = new NpoiBenchmarkRunner(_appConfig);
 
-        return versionString;
-    }
-
-    private static string GetNpoiVersion()
-    {
-        return GetAssemblyVersion(typeof(NPOI.CoreProperties));
-    }
-
-    private static string GetAsposeVersion()
-    {
-        return GetAssemblyVersion(typeof(Aspose.Cells.Cells));
-    }
-
-    private static string GetPreviousIxlVersion()
-    {
-        return GetAssemblyVersion(typeof(IronXLOld.Cell));
-    }
-
-    private static string GetCurrentIxlVersion()
-    {
-        return GetAssemblyVersion(typeof(IronXL.Cell));
+        return new()
+        {
+            { asposeRunner.NameAndVersion, asposeRunner.RunBenchmarks() },
+            { previousIxlRunner.NameAndVersion, previousIxlRunner.RunBenchmarks() },
+            { currentIxlRunner.NameAndVersion, currentIxlRunner.RunBenchmarks() },
+            { npoiRunner.NameAndVersion, npoiRunner.RunBenchmarks() },
+        };
     }
 
     private void CreateReportsFolder()
@@ -155,26 +136,6 @@ public class ReportGenerator : IReportGenerator
 
             i++;
         }
-    }
-
-    private TimeSpan[] GetAsposeBenchmarkData()
-    {
-        return new AsposeBenchmarkRunner(_appConfig).RunBenchmarks();
-    }
-
-    private TimeSpan[] GetPreviousIronXLBenchmarkData()
-    {
-        return new PreviousIronXLBenchmarkRunner(_appConfig).RunBenchmarks();
-    }
-
-    private TimeSpan[] GetCurrentIronXLBenchmarkData()
-    {
-        return new CurrentIronXLBenchmarkRunner(_appConfig).RunBenchmarks();
-    }
-
-    private TimeSpan[] GetNpoiBenchmarkData()
-    {
-        return new NpoiBenchmarkRunner(_appConfig).RunBenchmarks();
     }
 
     private void FillRow(WorkSheet sheet, int i, string contender, TimeSpan[] times)

@@ -11,6 +11,7 @@ namespace XLReporting.BenchmarkRunners
         }
 
         protected override string BenchmarkRunnerName => typeof(PreviousIronXLBenchmarkRunner).Name.Replace("BenchmarkRunner", "") ?? "PreviousIronXL";
+        public override string NameAndVersion => $"{BenchmarkRunnerName} v.{GetAssemblyVersion(typeof(Cell))}";
         protected override void PerformBenchmarkWork(Action<WorkSheet> benchmarkWork, string fileName, bool savingResultingFile)
         {
             var workbook = new WorkBook();

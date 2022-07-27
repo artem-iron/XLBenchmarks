@@ -11,6 +11,7 @@ namespace XLReporting.BenchmarkRunners
         }
 
         protected override string BenchmarkRunnerName => typeof(AsposeBenchmarkRunner).Name.Replace("BenchmarkRunner", "") ?? "Aspose";
+        public override string NameAndVersion => $"{BenchmarkRunnerName} v.{GetAssemblyVersion(typeof(Cell))}";
         protected override void PerformBenchmarkWork(Action<Cells> benchmarkWork, string fileName, bool savingResultingFile)
         {
             var workbook = new Workbook();

@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
+using System.Reflection;
 using XLReporting.Configuration;
 
 namespace XLReporting.BenchmarkRunners
@@ -106,6 +107,7 @@ namespace XLReporting.BenchmarkRunners
         }
 
         protected abstract string BenchmarkRunnerName { get; }
+        public abstract string NameAndVersion { get; }
         protected abstract void PerformBenchmarkWork(Action<T> benchmarkWork, string fileName, bool savingResultingFile);
         protected abstract void LoadingBigFileBenchmark(bool savingResultingFile);
         protected abstract void CreateRandomCells(T worksheet);
@@ -142,6 +144,15 @@ namespace XLReporting.BenchmarkRunners
             return firstBits | lastBits;
         }
 
+        protected static string GetAssemblyVersion(Type type)
+        {
+            var assembly = Assembly.GetAssembly(type);
+            var assemblyVersion = assembly == null ? null : assembly.GetName().Version;
+            var versionString = assemblyVersion == null ? "unknown" : assemblyVersion.ToString();
+
+            return versionString;
+        }
+        
         private static void CreateResultsFolder()
         {
             if (!Directory.Exists(_resultsFolderName))

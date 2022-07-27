@@ -11,6 +11,7 @@ namespace XLReporting.BenchmarkRunners
         }
 
         protected override string BenchmarkRunnerName => typeof(NpoiBenchmarkRunner).Name.Replace("BenchmarkRunner", "") ?? "NPOI";
+        public override string NameAndVersion => $"{BenchmarkRunnerName} v.{GetAssemblyVersion(typeof(ICell))}";
         protected override void PerformBenchmarkWork(Action<ISheet> benchmarkWork, string fileName, bool savingResultingFile)
         {
             var workbook = new XSSFWorkbook();
