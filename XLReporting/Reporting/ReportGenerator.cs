@@ -71,10 +71,10 @@ public class ReportGenerator : IReportGenerator
     {
         Dictionary<string, TimeSpan[]> timeTableData = new()
         {
-            { "Current IronXL", GetCurrentIronXLBenchmarkData() },
-            { "Previous IronXL", GetPreviousIronXLBenchmarkData() },
-            { "Aspose", GetAsposeBenchmarkData() },
-            { "NPOI", GetNpoiBenchmarkData() },
+            { $"IronXL v.{GetCurrentIxlVersion()} (cur.)", GetCurrentIronXLBenchmarkData() },
+            { $"IronXL v.{GetPreviousIxlVersion()} (old)", GetPreviousIronXLBenchmarkData() },
+            { $"Aspose v.{GetAsposeVersion()}", GetAsposeBenchmarkData() },
+            { $"NPOI v. {GetNpoiVersion()}", GetNpoiBenchmarkData() },
         };
 
         _appConfig.ContendersNumber = timeTableData.Count;
@@ -95,6 +95,35 @@ public class ReportGenerator : IReportGenerator
         }
 
         UpdateChart(sheet);
+    }
+
+    private static string GetAssemblyVersion(Type type)
+    {
+        var assembly = Assembly.GetAssembly(type);
+        var assemblyVersion = assembly == null ? null : assembly.GetName().Version;
+        var versionString = assemblyVersion == null ? "unknown" : assemblyVersion.ToString();
+
+        return versionString;
+    }
+
+    private static string GetNpoiVersion()
+    {
+        return GetAssemblyVersion(typeof(NPOI.CoreProperties));
+    }
+
+    private static string GetAsposeVersion()
+    {
+        return GetAssemblyVersion(typeof(Aspose.Cells.Cells));
+    }
+
+    private static string GetPreviousIxlVersion()
+    {
+        return GetAssemblyVersion(typeof(IronXLOld.Cell));
+    }
+
+    private static string GetCurrentIxlVersion()
+    {
+        return GetAssemblyVersion(typeof(IronXL.Cell));
     }
 
     private void CreateReportsFolder()
