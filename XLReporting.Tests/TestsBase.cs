@@ -9,7 +9,7 @@ namespace XLReporting.Tests;
 public abstract class TestsBase
 {
     protected readonly IAppConfig _appConfig;
-    
+
     protected TestsBase()
     {
         var builder = new ConfigurationBuilder()

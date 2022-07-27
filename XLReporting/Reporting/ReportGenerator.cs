@@ -74,7 +74,10 @@ public class ReportGenerator : IReportGenerator
             { "Current IronXL", GetCurrentIronXLBenchmarkData() },
             { "Previous IronXL", GetPreviousIronXLBenchmarkData() },
             { "Aspose", GetAsposeBenchmarkData() },
+            { "NPOI", GetNpoiBenchmarkData() },
         };
+
+        _appConfig.ContendersNumber = timeTableData.Count;
 
         var sheet = report.DefaultWorkSheet;
 
@@ -113,7 +116,7 @@ public class ReportGenerator : IReportGenerator
 
     private void FillHeader(WorkSheet sheet, string headerRowAddress)
     {
-        string[] benchmarkList = _appConfig.BenchmarkList;
+        string[] benchmarkList = _appConfig.BenchmarkList ?? new string[] { "couldn't get benchmark list from config" };
 
         var i = 0;
 
@@ -138,6 +141,11 @@ public class ReportGenerator : IReportGenerator
     private TimeSpan[] GetCurrentIronXLBenchmarkData()
     {
         return new CurrentIronXLBenchmarkRunner(_appConfig).RunBenchmarks();
+    }
+
+    private TimeSpan[] GetNpoiBenchmarkData()
+    {
+        return new NpoiBenchmarkRunner(_appConfig).RunBenchmarks();
     }
 
     private void FillRow(WorkSheet sheet, int i, string contender, TimeSpan[] times)

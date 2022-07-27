@@ -9,14 +9,14 @@ public interface IAppConfig
     public int ChartHeight { get; set; }
     public int ContendersNumber { get; set; }
     public int TimeTableStartingRow { get; set; }
-    
+
     public string? ChartTitle { get; set; }
     public string[]? BenchmarkList { get; set; }
 
     public int DateCellsNumber { get; set; }
     public int RandomCellsRowNumber { get; set; }
     public int StyleChangeRowNumber { get; set; }
-    
+
     public string ResultsFolderName { get; set; }
     public string RandomCellsFileNameTemplate { get; set; }
     public string DateCellsFileNameTemplate { get; set; }

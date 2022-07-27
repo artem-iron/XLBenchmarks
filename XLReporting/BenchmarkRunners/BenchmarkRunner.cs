@@ -89,19 +89,19 @@ namespace XLReporting.BenchmarkRunners
         private void RandomCellsBenchmark(bool savingResultingFile)
         {
             var randomCellsFileName = string.Format(CultureInfo.InvariantCulture, _randomCellsFileNameTemplate, _resultsFolderName, BenchmarkRunnerName);
-            
+
             PerformBenchmarkWork(CreateRandomCells, randomCellsFileName, savingResultingFile);
         }
         private void DateCellsBenchmark(bool savingResultingFile)
         {
             var dateCellsFileName = string.Format(CultureInfo.InvariantCulture, _dateCellsFileNameTemplate, _resultsFolderName, BenchmarkRunnerName);
-            
+
             PerformBenchmarkWork(CreateDateCells, dateCellsFileName, savingResultingFile);
         }
         private void StyleChangesBenchmark(bool savingResultingFile)
         {
             var styleChangeFileName = string.Format(CultureInfo.InvariantCulture, _styleChangeFileNameTemplate, _resultsFolderName, BenchmarkRunnerName);
-            
+
             PerformBenchmarkWork(MakeStyleChanges, styleChangeFileName, savingResultingFile);
         }
 
