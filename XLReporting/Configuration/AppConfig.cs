@@ -16,12 +16,14 @@ public class AppConfig : IAppConfig
     public int DateCellsNumber { get; set; } = 80000;
     public int RandomCellsRowNumber { get; set; } = 20000;
     public int StyleChangeRowNumber { get; set; } = 300;
+    public int GenerateFormulasRowNumber { get; set; } = 1000;
 
     public string ResultsFolderName { get; set; } = "Results";
     public string RandomCellsFileNameTemplate { get; set; } = "{0}\\{1}_RandomCells.xlsx";
     public string DateCellsFileNameTemplate { get; set; } = "{0}\\{1}_DateCells.xlsx";
     public string StyleChangeFileNameTemplate { get; set; } = "{0}\\{1}_StyleChange.xlsx";
     public string LoadingLargeFileFileNameTemplate { get; set; } = "{0}\\{1}_LoadingBigFile.xlsx";
+    public string GenerateFormulasFileNameTemplate { get; set; } = "{0}\\{1}_GenerateFormulas.xlsx";
     public string CellValue { get; set; } = "Cell";
     public string LargeFileName { get; set; } = "LoadingTestFiles\\LoadingTest.xlsx";
 }

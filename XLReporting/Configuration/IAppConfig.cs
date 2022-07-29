@@ -16,12 +16,14 @@ public interface IAppConfig
     public int DateCellsNumber { get; set; }
     public int RandomCellsRowNumber { get; set; }
     public int StyleChangeRowNumber { get; set; }
+    public int GenerateFormulasRowNumber { get; set; }
 
     public string ResultsFolderName { get; set; }
     public string RandomCellsFileNameTemplate { get; set; }
     public string DateCellsFileNameTemplate { get; set; }
     public string StyleChangeFileNameTemplate { get; set; }
     public string LoadingLargeFileFileNameTemplate { get; set; }
+    public string GenerateFormulasFileNameTemplate { get; set; }
     public string CellValue { get; set; }
     public string LargeFileName { get; set; }
 }

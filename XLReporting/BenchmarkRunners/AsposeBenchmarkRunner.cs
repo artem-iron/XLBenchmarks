@@ -81,5 +81,28 @@ namespace XLReporting.BenchmarkRunners
 
             range.SetStyle(style);
         }
+
+        protected override void GenerateFormulas(Cells cells)
+        {
+            var rnd = new Random();
+
+            for (int i = 1; i <= GenerateFormulasRowNumber; i++)
+            {
+                for (int j = 1; j <= 10; j++)
+                {
+                    string cellA = $"{_letters[rnd.Next(1, 10)]}{rnd.Next(GenerateFormulasRowNumber + 1, GenerateFormulasRowNumber * 2)}";
+                    string cellB = $"{_letters[rnd.Next(1, 10)]}{rnd.Next(GenerateFormulasRowNumber + 1, GenerateFormulasRowNumber * 2)}";
+                    cells[$"{_letters[j]}{i}"].Formula = $"={cellA}/{cellB}";
+                }
+            }
+
+            for (int i = GenerateFormulasRowNumber + 1; i <= GenerateFormulasRowNumber * 2; i++)
+            {
+                for (int j = 1; j <= 10; j++)
+                {
+                    cells[$"{_letters[j]}{i}"].Value = GetRandomRandInt(rnd);
+                }
+            }
+        }
     }
 }
