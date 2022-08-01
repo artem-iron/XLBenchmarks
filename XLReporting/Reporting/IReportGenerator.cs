@@ -1,6 +1,6 @@
 ﻿using IronXL;
 
-namespace XLReporting.Reporting;
+namespace XLBenchmarks.Reporting;
 
 public interface IReportGenerator
 {

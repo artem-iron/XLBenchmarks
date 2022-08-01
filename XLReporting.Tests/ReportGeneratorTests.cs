@@ -1,6 +1,6 @@
-using XLReporting.Reporting;
+using XLBenchmarks.Reporting;
 
-namespace XLReporting.Tests;
+namespace XLBenchmarks.Tests;
 
 [TestClass]
 public class ReportGeneratorTests : TestsBase

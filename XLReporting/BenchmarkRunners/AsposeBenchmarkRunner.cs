@@ -1,8 +1,8 @@
 ﻿
 using Aspose.Cells;
-using XLReporting.Configuration;
+using XLBenchmarks.Configuration;
 
-namespace XLReporting.BenchmarkRunners
+namespace XLBenchmarks.BenchmarkRunners
 {
     internal class AsposeBenchmarkRunner : BenchmarkRunner<Cells>
     {

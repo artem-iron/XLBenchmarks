@@ -1,8 +1,8 @@
 ﻿using NPOI.SS.UserModel;
 using NPOI.XSSF.UserModel;
-using XLReporting.Configuration;
+using XLBenchmarks.Configuration;
 
-namespace XLReporting.BenchmarkRunners
+namespace XLBenchmarks.BenchmarkRunners
 {
     internal class NpoiBenchmarkRunner : BenchmarkRunner<ISheet>
     {

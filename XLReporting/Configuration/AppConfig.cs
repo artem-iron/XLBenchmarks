@@ -1,4 +1,4 @@
-﻿namespace XLReporting.Configuration;
+﻿namespace XLBenchmarks.Configuration;
 
 public class AppConfig : IAppConfig
 {

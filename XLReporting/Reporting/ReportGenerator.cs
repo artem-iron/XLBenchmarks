@@ -2,10 +2,10 @@
 using IronXL.Drawing.Charts;
 using IronXL.Formatting;
 using System.Reflection;
-using XLReporting.Configuration;
-using XLReporting.BenchmarkRunners;
+using XLBenchmarks.Configuration;
+using XLBenchmarks.BenchmarkRunners;
 
-namespace XLReporting.Reporting;
+namespace XLBenchmarks.Reporting;
 
 public class ReportGenerator : IReportGenerator
 {

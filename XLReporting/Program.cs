@@ -4,8 +4,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
 using System.Reflection;
-using XLReporting.Configuration;
-using XLReporting.Reporting;
+using XLBenchmarks.Configuration;
+using XLBenchmarks.Reporting;
 
 Thread.CurrentThread.CurrentCulture = System.Globalization.CultureInfo.InvariantCulture;
 

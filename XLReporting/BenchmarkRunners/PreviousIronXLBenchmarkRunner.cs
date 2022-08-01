@@ -1,8 +1,8 @@
 ﻿using IronXLOld;
 using IronXLOld.Styles;
-using XLReporting.Configuration;
+using XLBenchmarks.Configuration;
 
-namespace XLReporting.BenchmarkRunners
+namespace XLBenchmarks.BenchmarkRunners
 {
     internal class PreviousIronXLBenchmarkRunner : BenchmarkRunner<WorkSheet>
     {

@@ -2,9 +2,9 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using XLReporting.Configuration;
+using XLBenchmarks.Configuration;
 
-namespace XLReporting.Tests;
+namespace XLBenchmarks.Tests;
 
 public abstract class TestsBase
 {

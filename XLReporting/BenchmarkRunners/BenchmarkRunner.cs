@@ -1,9 +1,9 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
 using System.Reflection;
-using XLReporting.Configuration;
+using XLBenchmarks.Configuration;
 
-namespace XLReporting.BenchmarkRunners
+namespace XLBenchmarks.BenchmarkRunners
 {
     internal abstract class BenchmarkRunner<T>
     {
@@ -193,7 +193,7 @@ namespace XLReporting.BenchmarkRunners
         protected static string GetAssemblyVersion(Type type)
         {
             var assembly = Assembly.GetAssembly(type);
-            var assemblyVersion = assembly == null ? null : assembly.GetName().Version;
+            var assemblyVersion = assembly?.GetName().Version;
             var versionString = assemblyVersion == null ? "unknown" : assemblyVersion.ToString();
 
             return versionString;
