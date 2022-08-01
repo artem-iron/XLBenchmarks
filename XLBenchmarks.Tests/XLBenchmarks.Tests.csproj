@@ -29,7 +29,7 @@
 	</ItemGroup>
 	
     <ItemGroup>
-      <ProjectReference Include="..\XLReporting\XLBenchmarks.csproj" />
+      <ProjectReference Include="..\XLBenchmarks\XLBenchmarks.csproj" />
     </ItemGroup>
 
     <ItemGroup>
