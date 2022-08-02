@@ -81,7 +81,6 @@ namespace XLBenchmarks.BenchmarkRunners
 
             range.SetStyle(style);
         }
-
         protected override void GenerateFormulas(Cells cells)
         {
             var rnd = new Random();

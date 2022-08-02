@@ -75,7 +75,6 @@ namespace XLBenchmarks.BenchmarkRunners
             style.VerticalAlignment = VerticalAlignment.Top;
             style.HorizontalAlignment = HorizontalAlignment.Right;
         }
-
         protected override void GenerateFormulas(WorkSheet worksheet)
         {
             var rnd = new Random();

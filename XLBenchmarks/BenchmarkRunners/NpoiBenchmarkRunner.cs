@@ -89,7 +89,6 @@ namespace XLBenchmarks.BenchmarkRunners
                 }
             }
         }
-
         protected override void GenerateFormulas(ISheet worksheet)
         {
             var rnd = new Random();
