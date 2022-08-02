@@ -94,21 +94,21 @@ namespace XLBenchmarks.BenchmarkRunners
         {
             var rnd = new Random();
 
-            for (int i = 1; i <= GenerateFormulasRowNumber; i++)
+            for (int i = 0; i < GenerateFormulasRowNumber; i++)
             {
                 var row = worksheet.CreateRow(i);
-                for (int j = 1; j <= 10; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     string cellA = $"{_letters[rnd.Next(1, 10)]}{rnd.Next(GenerateFormulasRowNumber + 1, GenerateFormulasRowNumber * 2)}";
                     string cellB = $"{_letters[rnd.Next(1, 10)]}{rnd.Next(GenerateFormulasRowNumber + 1, GenerateFormulasRowNumber * 2)}";
-                    row.CreateCell(i).SetCellFormula($"{cellA}/{cellB}");
+                    row.CreateCell(j).SetCellFormula($"{cellA}/{cellB}");
                 }
             }
 
-            for (int i = GenerateFormulasRowNumber + 1; i <= GenerateFormulasRowNumber * 2; i++)
+            for (int i = GenerateFormulasRowNumber; i < GenerateFormulasRowNumber * 2; i++)
             {
                 var row = worksheet.CreateRow(i);
-                for (int j = 1; j <= 10; j++)
+                for (int j = 0; j < 10; j++)
                 {
                     row.CreateCell(j).SetCellValue(GetRandomRandInt(rnd));
                 }

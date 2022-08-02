@@ -101,7 +101,7 @@ public class ReportGenerator : IReportGenerator
         return new()
         {
             { asposeRunner.NameAndVersion, asposeRunner.RunBenchmarks() },
-            { previousIxlRunner.NameAndVersion, previousIxlRunner.RunBenchmarks() },
+            //{ previousIxlRunner.NameAndVersion, previousIxlRunner.RunBenchmarks() },
             { currentIxlRunner.NameAndVersion, currentIxlRunner.RunBenchmarks() },
             { npoiRunner.NameAndVersion, npoiRunner.RunBenchmarks() },
         };
