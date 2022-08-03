@@ -98,14 +98,16 @@ public class ReportGenerator : IReportGenerator
         var currentIxlRunner = new CurrentIronXLBenchmarkRunner(_appConfig);
         var npoiRunner = new NpoiBenchmarkRunner(_appConfig);
         var officeInteropRunner = new OfficeInteropBenchmarkRunner(_appConfig);
+        var closedXmlRunner = new ClosedXmlBenchmarkRunner(_appConfig);
 
         return new()
         {
             { officeInteropRunner.NameAndVersion, officeInteropRunner.RunBenchmarks() },
             { asposeRunner.NameAndVersion, asposeRunner.RunBenchmarks() },
-            { previousIxlRunner.NameAndVersion, previousIxlRunner.RunBenchmarks() },
+            //{ previousIxlRunner.NameAndVersion, previousIxlRunner.RunBenchmarks() },
             { currentIxlRunner.NameAndVersion, currentIxlRunner.RunBenchmarks() },
             { npoiRunner.NameAndVersion, npoiRunner.RunBenchmarks() },
+            { closedXmlRunner.NameAndVersion, closedXmlRunner.RunBenchmarks() },
         };
     }
 
