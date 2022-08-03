@@ -198,7 +198,7 @@ namespace XLBenchmarks.BenchmarkRunners
 
             return versionString;
         }
-        
+
         private static void CreateResultsFolder()
         {
             if (!Directory.Exists(_resultsFolderName))

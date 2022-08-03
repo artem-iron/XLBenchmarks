@@ -73,7 +73,7 @@ namespace XLBenchmarks.BenchmarkRunners
             style.Font.Size = 22;
             style.VerticalAlignment = TextAlignmentType.Top;
             style.HorizontalAlignment = TextAlignmentType.Right;
-            
+
             cells.InsertRows(1, StyleChangeRowNumber);
 
             var range = cells.CreateRange($"A1:O{StyleChangeRowNumber}");

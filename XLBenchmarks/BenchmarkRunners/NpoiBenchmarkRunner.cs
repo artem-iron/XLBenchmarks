@@ -16,9 +16,9 @@ namespace XLBenchmarks.BenchmarkRunners
         {
             var workbook = new XSSFWorkbook();
             var sheet = workbook.CreateSheet();
-            
+
             benchmarkWork(sheet);
-            
+
             if (savingResultingFile)
             {
                 workbook.Write(File.Create(fileName));
@@ -72,12 +72,12 @@ namespace XLBenchmarks.BenchmarkRunners
         {
             var font = worksheet.Workbook.CreateFont();
             font.FontHeightInPoints = 22;
-            
+
             var style = worksheet.Workbook.CreateCellStyle();
             style.SetFont(font);
             style.VerticalAlignment = VerticalAlignment.Top;
             style.Alignment = HorizontalAlignment.Right;
-            
+
             for (int i = 0; i < StyleChangeRowNumber; i++)
             {
                 var row = worksheet.CreateRow(i);

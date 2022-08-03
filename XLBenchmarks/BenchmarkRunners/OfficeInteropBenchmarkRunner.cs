@@ -11,6 +11,21 @@ namespace XLBenchmarks.BenchmarkRunners
 
         public OfficeInteropBenchmarkRunner(IAppConfig appConfig) : base(appConfig)
         {
+            _excelApp.DisplayAlerts = false;
+        }
+
+        public new TimeSpan[] RunBenchmarks()
+        {
+            var timeTableData = base.RunBenchmarks();
+
+            QuitExcelApp();
+
+            return timeTableData;
+        }
+
+        public void QuitExcelApp()
+        {
+            _excelApp.Quit();
         }
 
         public override string NameAndVersion => $"{BenchmarkRunnerName} v.{GetAssemblyVersion(typeof(Excel.Range))}";
@@ -93,7 +108,7 @@ namespace XLBenchmarks.BenchmarkRunners
                 var cell = (Excel.Range)cells[i, 1];
                 cell.Value = DateTime.Now;
             }
-            
+
             cells.NumberFormat = "DD/MM/YYYY";
         }
         protected override void MakeStyleChanges(Excel.Range cells)
