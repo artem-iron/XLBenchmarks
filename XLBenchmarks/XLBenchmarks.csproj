@@ -25,9 +25,9 @@
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="Aspose.Cells" Version="22.7.0" />
+      <PackageReference Include="Aspose.Cells" Version="22.8.0" />
       <PackageReference Include="ClosedXML" Version="0.96.0" />
-      <PackageReference Include="IronXL.Excel" Version="2022.7.7362" />
+      <PackageReference Include="IronXL.Excel" Version="2022.8.8357" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="6.0.1" />
       <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="6.0.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="6.0.1" />
